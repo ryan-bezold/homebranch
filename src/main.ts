@@ -5,16 +5,21 @@ import { DomainExceptionFilter } from './infrastructure/filters/domain-exception
 import { existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import * as express from 'express';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'warn', 'log'],
+    cors: { origin: process.env.CORS_ORIGIN, credentials: true },
   });
+
   app.useGlobalFilters(new DomainExceptionFilter());
-  app.enableCors();
+  app.use(cookieParser());
+
   const port = process.env.PORT || 3000;
   const uploadsDirectory = process.env.UPLOADS_DIRECTORY || './uploads';
+
   if (!existsSync(uploadsDirectory)) {
     logger.warn(
       `Uploads directory "${uploadsDirectory}" does not exist. Creating it...`,

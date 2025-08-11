@@ -10,9 +10,10 @@ import { BookEntity } from 'src/infrastructure/database/book.entity';
 import { BookMapper } from 'src/infrastructure/mappers/book.mapper';
 import { TypeOrmBookRepository } from 'src/infrastructure/repositories/book.repository';
 import { BookController } from 'src/presentation/controllers/book.controller';
+import { AuthModule } from './auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([BookEntity])],
+  imports: [TypeOrmModule.forFeature([BookEntity]), AuthModule],
   providers: [
     // Repository
     {

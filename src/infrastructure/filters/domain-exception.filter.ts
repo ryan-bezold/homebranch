@@ -14,8 +14,9 @@ import {
   TokenExpiredError,
 } from 'src/domain/exceptions/auth.exceptions';
 import { BookNotFoundError } from 'src/domain/exceptions/book.exceptions';
+import { DomainException } from '../../domain/exceptions/domain_exception';
 
-@Catch()
+@Catch(DomainException)
 export class DomainExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(DomainExceptionFilter.name);
 
@@ -68,13 +69,9 @@ export class DomainExceptionFilter implements ExceptionFilter {
     }
 
     const errorResponse = {
-      success: false,
-      error: {
-        code,
-        message,
-        timestamp: new Date().toISOString(),
-        path: request.url,
-      },
+      message: [message],
+      error: code,
+      statusCode: status,
     };
 
     response.status(status).json(errorResponse);

@@ -1,6 +1,15 @@
-import { Injectable, CanActivate, Inject, ExecutionContext, UnauthorizedException } from "@nestjs/common";
-import { ITokenGateway } from "src/application/interfaces/jwt-token.gateway";
-import { TokenExpiredError } from "src/domain/exceptions/auth.exceptions";
+import {
+  Injectable,
+  CanActivate,
+  Inject,
+  ExecutionContext,
+} from '@nestjs/common';
+import {
+  InvalidTokenError,
+  TokenExpiredError,
+} from 'src/domain/exceptions/auth.exceptions';
+import { Request } from 'express';
+import { ITokenGateway } from '../../application/interfaces/jwt-token.gateway';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -10,12 +19,11 @@ export class JwtAuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const authHeader = request.headers.authorization;
+    const request: Request = context.switchToHttp().getRequest();
 
-    const token = this.tokenGateway.extractTokenFromHeader(authHeader);
+    const token = request.cookies['access_token'] as string;
     if (!token) {
-      throw new UnauthorizedException('No token provided');
+      throw new InvalidTokenError('No token provided');
     }
 
     try {
@@ -23,7 +31,7 @@ export class JwtAuthGuard implements CanActivate {
       const payload = await this.tokenGateway.verifyAccessToken(token);
 
       // Add user info to request
-      request.user = {
+      request['user'] = {
         id: payload.userId,
         email: payload.email,
         roles: payload.roles,
@@ -32,9 +40,9 @@ export class JwtAuthGuard implements CanActivate {
       return true;
     } catch (error) {
       if (error instanceof TokenExpiredError) {
-        throw new UnauthorizedException('Token has expired');
+        throw new InvalidTokenError('Token has expired');
       }
-      throw new UnauthorizedException('Invalid token');
+      throw new InvalidTokenError('Invalid token');
     }
   }
 }
