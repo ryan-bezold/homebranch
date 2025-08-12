@@ -2,8 +2,8 @@
 A self hosted ebook management backend
 
 ### Dependencies
-- A JWT authentication service such as ["http://github.com/Hydraux/authentication]
-- A Postgres database
+- An [authentication service](http://github.com/Hydraux/authentication)
+- A PostgreSQL database
 
 ### Setup
 - Environment variables must be set for the Postgres database connection.
