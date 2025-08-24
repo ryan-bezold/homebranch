@@ -1,5 +1,5 @@
 import { Book } from 'src/domain/entities/book.entity';
-import { BookEntity } from '../database/book.entity';
+import { BookEntity } from 'src/infrastructure/database/book.entity';
 import { BookFactory } from 'src/domain/entities/book.factory';
 
 export class BookMapper {

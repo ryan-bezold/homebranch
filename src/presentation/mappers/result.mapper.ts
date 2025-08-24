@@ -1,4 +1,4 @@
-import { Result } from '../../core/result';
+import { Result } from 'src/core/result';
 
 interface Response<T> {
   statusCode: number;

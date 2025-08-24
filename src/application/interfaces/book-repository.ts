@@ -1,7 +1,7 @@
 import { Book } from 'src/domain/entities/book.entity';
-import { IRepository } from './repository';
-import { Result } from '../../core/result';
-import { PaginationResult } from '../../core/pagination_result';
+import { IRepository } from 'src/core/repository';
+import { Result } from 'src/core/result';
+import { PaginationResult } from 'src/core/pagination_result';
 
 export interface IBookRepository extends IRepository<Book> {
   findByAuthor(

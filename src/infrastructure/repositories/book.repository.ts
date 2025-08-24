@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { IBookRepository } from 'src/application/interfaces/book-repository';
 import { Repository } from 'typeorm';
-import { BookEntity } from '../database/book.entity';
-import { BookMapper } from '../mappers/book.mapper';
+import { BookEntity } from 'src/infrastructure/database/book.entity';
+import { BookMapper } from 'src/infrastructure/mappers/book.mapper';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from 'src/domain/entities/book.entity';
 import { existsSync, unlinkSync } from 'fs';
 import { join } from 'path';
-import { BookNotFoundFailure } from '../../domain/failures/book.failures';
-import { Result } from '../../core/result';
-import { PaginationResult } from '../../core/pagination_result';
+import { BookNotFoundFailure } from 'src/domain/failures/book.failures';
+import { Result } from 'src/core/result';
+import { PaginationResult } from 'src/core/pagination_result';
 
 @Injectable()
 export class TypeOrmBookRepository implements IBookRepository {

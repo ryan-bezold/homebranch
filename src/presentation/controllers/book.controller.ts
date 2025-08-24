@@ -17,7 +17,7 @@ import { CreateBookUseCase } from 'src/application/usecases/create-book.usecase'
 import { DeleteBookUseCase } from 'src/application/usecases/delete-book.usecase';
 import { GetBooksUseCase } from 'src/application/usecases/get-books.usecase';
 import { UpdateBookUseCase } from 'src/application/usecases/update-book.usecase';
-import { UpdateBookDto } from '../dtos/update-book.dto';
+import { UpdateBookDto } from 'src/presentation/dtos/update-book.dto';
 import { GetBookByIdUseCase } from 'src/application/usecases/get-book-by-id.usecase';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -25,9 +25,9 @@ import { randomUUID } from 'crypto';
 import { join } from 'path';
 import { DeleteBookRequest } from 'src/application/contracts/delete-book-request';
 import { GetFavoriteBooksUseCase } from 'src/application/usecases/get-favorite-books-use-case.service';
-import { JwtAuthGuard } from '../../infrastructure/guards/jwt-auth.guard';
-import { MapResultInterceptor } from '../interceptors/map_result.interceptor';
-import { PaginatedQuery } from '../../application/contracts/paginated-query';
+import { JwtAuthGuard } from 'src/infrastructure/guards/jwt-auth.guard';
+import { MapResultInterceptor } from 'src/presentation/interceptors/map_result.interceptor';
+import { PaginatedQuery } from 'src/core/paginated-query';
 
 @Controller('books')
 @UseInterceptors(MapResultInterceptor)

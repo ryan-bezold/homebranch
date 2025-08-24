@@ -1,9 +1,9 @@
 import { Book } from 'src/domain/entities/book.entity';
-import { UpdateBookRequest } from '../contracts/update-book-request';
-import { UseCase } from '../interfaces/usecase';
-import { IBookRepository } from '../interfaces/book-repository';
+import { UpdateBookRequest } from 'src/application/contracts/update-book-request';
+import { UseCase } from 'src/core/usecase';
+import { IBookRepository } from 'src/application/interfaces/book-repository';
 import { Inject, Injectable } from '@nestjs/common';
-import { Result } from '../../core/result';
+import { Result } from 'src/core/result';
 
 @Injectable()
 export class UpdateBookUseCase implements UseCase<UpdateBookRequest, Book> {

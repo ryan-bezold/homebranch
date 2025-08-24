@@ -9,7 +9,7 @@ import {
   TokenExpiredError,
 } from 'src/domain/exceptions/auth.exceptions';
 import { Request } from 'express';
-import { ITokenGateway } from '../../application/interfaces/jwt-token.gateway';
+import { ITokenGateway } from 'src/application/interfaces/jwt-token.gateway';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
