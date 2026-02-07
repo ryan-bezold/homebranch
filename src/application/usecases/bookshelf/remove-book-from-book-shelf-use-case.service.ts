@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Result } from '../../../core/result';
-import { UseCase } from '../../../core/usecase';
-import { BookShelf } from '../../../domain/entities/bookshelf.entity';
+import { Result } from 'src/core/result';
+import { UseCase } from 'src/core/usecase';
+import { BookShelf } from 'src/domain/entities/bookshelf.entity';
 import { IBookShelfRepository } from '../../interfaces/bookshelf-repository';
 import { RemoveBookFromBookShelfRequest } from '../../contracts/bookshelf/remove-book-from-book-shelf-request';
 

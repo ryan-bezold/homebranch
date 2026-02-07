@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Result } from '../../../core/result';
-import { UseCase } from '../../../core/usecase';
+import { Result } from 'src/core/result';
+import { UseCase } from 'src/core/usecase';
 import { UpdateBookShelfRequest } from '../../contracts/bookshelf/update-book-shelf-request';
-import { BookShelf } from '../../../domain/entities/bookshelf.entity';
+import { BookShelf } from 'src/domain/entities/bookshelf.entity';
 import { IBookShelfRepository } from '../../interfaces/bookshelf-repository';
 
 @Injectable()

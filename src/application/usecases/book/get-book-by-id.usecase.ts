@@ -2,9 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { IBookRepository } from '../../interfaces/book-repository';
 import { Book } from 'src/domain/entities/book.entity';
 import { GetBookByIdRequest } from '../../contracts/book/get-book-by-id-request';
-import { Result } from '../../../core/result';
-import { UseCase } from '../../../core/usecase';
-import { PaginatedQuery } from '../../../core/paginated-query';
+import { Result } from 'src/core/result';
+import { UseCase } from 'src/core/usecase';
+import { PaginatedQuery } from 'src/core/paginated-query';
 
 @Injectable()
 export class GetBookByIdUseCase

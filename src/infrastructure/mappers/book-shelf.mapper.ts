@@ -1,6 +1,6 @@
 import { BookShelfEntity } from 'src/infrastructure/database/book-shelf.entity';
-import { BookShelf } from '../../domain/entities/bookshelf.entity';
-import { BookShelfFactory } from '../../domain/entities/bookshelf.factory';
+import { BookShelf } from 'src/domain/entities/bookshelf.entity';
+import { BookShelfFactory } from 'src/domain/entities/bookshelf.factory';
 import { BookMapper } from './book.mapper';
 
 export class BookShelfMapper {

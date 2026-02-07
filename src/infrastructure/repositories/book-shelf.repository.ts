@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Result } from '../../core/result';
-import { PaginationResult } from '../../core/pagination_result';
+import { Result } from 'src/core/result';
+import { PaginationResult } from 'src/core/pagination_result';
 import { BookShelfEntity } from 'src/infrastructure/database/book-shelf.entity';
-import { IBookShelfRepository } from '../../application/interfaces/bookshelf-repository';
-import { BookShelf } from '../../domain/entities/bookshelf.entity';
+import { IBookShelfRepository } from 'src/application/interfaces/bookshelf-repository';
+import { BookShelf } from 'src/domain/entities/bookshelf.entity';
 import { BookShelfMapper } from '../mappers/book-shelf.mapper';
-import { BookShelfNotFoundFailure } from '../../domain/failures/bookshelf.failures';
+import { BookShelfNotFoundFailure } from 'src/domain/failures/bookshelf.failures';
 
 @Injectable()
 export class TypeOrmBookShelfRepository implements IBookShelfRepository {

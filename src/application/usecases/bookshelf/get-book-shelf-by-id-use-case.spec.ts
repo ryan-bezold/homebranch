@@ -1,10 +1,10 @@
 /* eslint-disable */
 import { Test, TestingModule } from '@nestjs/testing';
 import { IBookShelfRepository } from '../../interfaces/bookshelf-repository';
-import { Result } from '../../../core/result';
-import { BookShelf } from '../../../domain/entities/bookshelf.entity';
+import { Result } from 'src/core/result';
+import { BookShelf } from 'src/domain/entities/bookshelf.entity';
 import { GetBookShelfByIdUseCase } from './get-book-shelf-by-id-use-case.service';
-import { BookShelfNotFoundFailure } from '../../../domain/failures/bookshelf.failures';
+import { BookShelfNotFoundFailure } from 'src/domain/failures/bookshelf.failures';
 
 describe('GetBookShelfByIdUseCase', () => {
   let useCase: GetBookShelfByIdUseCase;

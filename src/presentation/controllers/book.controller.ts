@@ -25,9 +25,9 @@ import { randomUUID } from 'crypto';
 import { join } from 'path';
 import { DeleteBookRequest } from 'src/application/contracts/book/delete-book-request';
 import { GetFavoriteBooksUseCase } from 'src/application/usecases/book/get-favorite-books-use-case.service';
-import { JwtAuthGuard } from '../../infrastructure/guards/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/infrastructure/guards/jwt-auth.guard';
 import { MapResultInterceptor } from '../interceptors/map_result.interceptor';
-import { PaginatedQuery } from '../../core/paginated-query';
+import { PaginatedQuery } from 'src/core/paginated-query';
 
 @Controller('books')
 @UseInterceptors(MapResultInterceptor)

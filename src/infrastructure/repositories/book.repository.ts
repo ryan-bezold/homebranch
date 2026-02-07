@@ -7,10 +7,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from 'src/domain/entities/book.entity';
 import { existsSync, unlinkSync } from 'fs';
 import { join } from 'path';
-import { BookNotFoundFailure } from '../../domain/failures/book.failures';
-import { Result } from '../../core/result';
-import { PaginationResult } from '../../core/pagination_result';
-import { BookShelf } from '../../domain/entities/bookshelf.entity';
+import { BookNotFoundFailure } from 'src/domain/failures/book.failures';
+import { Result } from 'src/core/result';
+import { PaginationResult } from 'src/core/pagination_result';
+import { BookShelf } from 'src/domain/entities/bookshelf.entity';
 
 @Injectable()
 export class TypeOrmBookRepository implements IBookRepository {

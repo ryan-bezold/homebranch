@@ -10,23 +10,23 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '../../infrastructure/guards/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/infrastructure/guards/jwt-auth.guard';
 import { MapResultInterceptor } from '../interceptors/map_result.interceptor';
-import { GetBookShelvesUseCase } from '../../application/usecases/bookshelf/get-book-shelves-use-case.service';
-import { GetBookShelfByIdUseCase } from '../../application/usecases/bookshelf/get-book-shelf-by-id-use-case.service';
-import { CreateBookShelfUseCase } from '../../application/usecases/bookshelf/create-book-shelf-use-case.service';
-import { DeleteBookShelfUseCase } from '../../application/usecases/bookshelf/delete-book-shelf-use-case.service';
-import { UpdateBookShelfUseCase } from '../../application/usecases/bookshelf/update-book-shelf-use-case.service';
-import { AddBookToBookShelfUseCase } from '../../application/usecases/bookshelf/add-book-to-book-shelf-use-case.service';
-import { RemoveBookFromBookShelfUseCase } from '../../application/usecases/bookshelf/remove-book-from-book-shelf-use-case.service';
-import { PaginatedQuery } from '../../core/paginated-query';
-import { DeleteBookShelfRequest } from '../../application/contracts/bookshelf/delete-book-shelf-request';
-import { UpdateBookShelfRequest } from '../../application/contracts/bookshelf/update-book-shelf-request';
+import { GetBookShelvesUseCase } from 'src/application/usecases/bookshelf/get-book-shelves-use-case.service';
+import { GetBookShelfByIdUseCase } from 'src/application/usecases/bookshelf/get-book-shelf-by-id-use-case.service';
+import { CreateBookShelfUseCase } from 'src/application/usecases/bookshelf/create-book-shelf-use-case.service';
+import { DeleteBookShelfUseCase } from 'src/application/usecases/bookshelf/delete-book-shelf-use-case.service';
+import { UpdateBookShelfUseCase } from 'src/application/usecases/bookshelf/update-book-shelf-use-case.service';
+import { AddBookToBookShelfUseCase } from 'src/application/usecases/bookshelf/add-book-to-book-shelf-use-case.service';
+import { RemoveBookFromBookShelfUseCase } from 'src/application/usecases/bookshelf/remove-book-from-book-shelf-use-case.service';
+import { PaginatedQuery } from 'src/core/paginated-query';
+import { DeleteBookShelfRequest } from 'src/application/contracts/bookshelf/delete-book-shelf-request';
+import { UpdateBookShelfRequest } from 'src/application/contracts/bookshelf/update-book-shelf-request';
 import { CreateBookShelfDto } from '../dtos/create-book-shelf.dto';
 import { UpdateBookShelfDto } from '../dtos/update-book-shelf.dto';
 import { AddBookToBookShelfDto } from '../dtos/add-book-to-book-shelf.dto';
 import { RemoveBookFromBookShelfDto } from '../dtos/remove-book-from-book-shelf.dto';
-import { GetBookShelfBooksUseCase } from '../../application/usecases/bookshelf/get-book-shelf-books-use-case.service';
+import { GetBookShelfBooksUseCase } from 'src/application/usecases/bookshelf/get-book-shelf-books-use-case.service';
 
 @Controller('book-shelves')
 @UseInterceptors(MapResultInterceptor)

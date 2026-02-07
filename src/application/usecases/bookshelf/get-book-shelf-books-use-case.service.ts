@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { UseCase } from '../../../core/usecase';
-import { Book } from '../../../domain/entities/book.entity';
-import { PaginationResult } from '../../../core/pagination_result';
+import { UseCase } from 'src/core/usecase';
+import { Book } from 'src/domain/entities/book.entity';
+import { PaginationResult } from 'src/core/pagination_result';
 import { IBookShelfRepository } from '../../interfaces/bookshelf-repository';
-import { Result } from '../../../core/result';
-import { BookShelfNotFoundFailure } from '../../../domain/failures/bookshelf.failures';
+import { Result } from 'src/core/result';
+import { BookShelfNotFoundFailure } from 'src/domain/failures/bookshelf.failures';
 import { GetBookShelfBooksRequest } from '../../contracts/bookshelf/get-book-shelf-books';
 import { IBookRepository } from '../../interfaces/book-repository';
 

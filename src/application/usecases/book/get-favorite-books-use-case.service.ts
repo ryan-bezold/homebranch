@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IBookRepository } from '../../interfaces/book-repository';
-import { Book } from '../../../domain/entities/book.entity';
-import { Result } from '../../../core/result';
-import { PaginationResult } from '../../../core/pagination_result';
-import { UseCase } from '../../../core/usecase';
-import { PaginatedQuery } from '../../../core/paginated-query';
+import { Book } from 'src/domain/entities/book.entity';
+import { Result } from 'src/core/result';
+import { PaginationResult } from 'src/core/pagination_result';
+import { UseCase } from 'src/core/usecase';
+import { PaginatedQuery } from 'src/core/paginated-query';
 
 @Injectable()
 export class GetFavoriteBooksUseCase

@@ -2,12 +2,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { IBookShelfRepository } from '../../interfaces/bookshelf-repository';
 import { IBookRepository } from '../../interfaces/book-repository';
-import { Result } from '../../../core/result';
-import { BookShelf } from '../../../domain/entities/bookshelf.entity';
-import { Book } from '../../../domain/entities/book.entity';
+import { Result } from 'src/core/result';
+import { BookShelf } from 'src/domain/entities/bookshelf.entity';
+import { Book } from 'src/domain/entities/book.entity';
 import { GetBookShelfBooksUseCase } from './get-book-shelf-books-use-case.service';
-import { BookShelfNotFoundFailure } from '../../../domain/failures/bookshelf.failures';
-import { PaginationResult } from '../../../core/pagination_result';
+import { BookShelfNotFoundFailure } from 'src/domain/failures/bookshelf.failures';
+import { PaginationResult } from 'src/core/pagination_result';
 
 describe('GetBookShelfBooksUseCase', () => {
   let useCase: GetBookShelfBooksUseCase;
