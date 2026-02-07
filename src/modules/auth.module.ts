@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { JwtTokenGateway } from '../infrastructure/gateways/jwt_token.gateway';
+import { JwtTokenGateway } from 'src/infrastructure/gateways/jwt_token.gateway';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({

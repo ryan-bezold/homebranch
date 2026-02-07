@@ -1,4 +1,4 @@
-import { Failure } from '../../core/result';
+import { Failure } from 'src/core/result';
 
 export class BookNotFoundFailure extends Failure {
   constructor() {

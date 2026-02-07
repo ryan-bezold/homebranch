@@ -12,8 +12,8 @@ import {
   InvalidTokenError,
   RefreshTokenRevokedError,
   TokenExpiredError,
-} from '../../domain/exceptions/auth.exceptions';
-import { DomainException } from '../../domain/exceptions/domain_exception';
+} from 'src/domain/exceptions/auth.exceptions';
+import { DomainException } from 'src/domain/exceptions/domain_exception';
 
 @Catch(DomainException)
 export class DomainExceptionFilter implements ExceptionFilter {

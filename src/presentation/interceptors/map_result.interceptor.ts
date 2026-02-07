@@ -5,8 +5,8 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
-import { ResultMapper } from '../mappers/result.mapper';
-import { Result } from '../../core/result';
+import { ResultMapper } from 'src/presentation/mappers/result.mapper';
+import { Result } from 'src/core/result';
 import { Response } from 'express';
 
 @Injectable()
