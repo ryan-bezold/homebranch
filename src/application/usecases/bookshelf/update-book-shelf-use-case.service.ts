@@ -15,13 +15,15 @@ export class UpdateBookShelfUseCase
   ) {}
 
   async execute(request: UpdateBookShelfRequest): Promise<Result<BookShelf>> {
-    const findBookResult = await this.bookShelfRepository.findById(request.id);
+    const findBookShelfResult = await this.bookShelfRepository.findById(
+      request.id,
+    );
 
-    if (!findBookResult.isSuccess()) {
-      return findBookResult;
+    if (!findBookShelfResult.isSuccess()) {
+      return findBookShelfResult;
     }
 
-    const bookShelf = findBookResult.getValue();
+    const bookShelf = findBookShelfResult.getValue();
 
     bookShelf.title = request.title ?? bookShelf.title;
 
