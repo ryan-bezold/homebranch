@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreateBookUseCase } from 'src/application/usecases/book/create-book.usecase';
 import { DeleteBookUseCase } from 'src/application/usecases/book/delete-book.usecase';
@@ -11,9 +11,14 @@ import { BookMapper } from 'src/infrastructure/mappers/book.mapper';
 import { TypeOrmBookRepository } from 'src/infrastructure/repositories/book.repository';
 import { BookController } from 'src/presentation/controllers/book.controller';
 import { AuthModule } from 'src/modules/auth.module';
+import { UsersModule } from 'src/modules/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([BookEntity]), AuthModule],
+  imports: [
+    TypeOrmModule.forFeature([BookEntity]),
+    AuthModule,
+    forwardRef(() => UsersModule),
+  ],
   providers: [
     // Repository
     {

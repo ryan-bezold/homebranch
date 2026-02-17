@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { BookEntity } from 'src/infrastructure/database/book.entity';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { BookShelfEntity } from '../infrastructure/database/book-shelf.entity';
+import { UserEntity } from '../infrastructure/database/user.entity';
+import { RoleEntity } from '../infrastructure/database/role.entity';
 
 @Module({
   imports: [
@@ -40,7 +42,7 @@ import { BookShelfEntity } from '../infrastructure/database/book-shelf.entity';
           username: username,
           password: password,
           database: database,
-          entities: [BookEntity, BookShelfEntity],
+          entities: [BookEntity, BookShelfEntity, UserEntity, RoleEntity],
           synchronize: !isProduction,
           logging: !isProduction,
           namingStrategy: new SnakeNamingStrategy(),

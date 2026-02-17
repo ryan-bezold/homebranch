@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmConfigModule } from './modules/typeorm.module';
 import { BooksModule } from './modules/book.module';
 import { BookShelvesModule } from './modules/book-shelf.module';
+import { UsersModule } from './modules/user.module';
 import { HealthModule } from './modules/health.module';
 
 @Module({
@@ -21,6 +22,7 @@ import { HealthModule } from './modules/health.module';
     // Feature modules
     BooksModule,
     BookShelvesModule,
+    UsersModule,
   ],
   controllers: [],
   providers: [],

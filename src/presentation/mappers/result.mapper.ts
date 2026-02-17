@@ -31,6 +31,33 @@ export class ResultMapper {
             message: error.message,
           },
         };
+      case 'CONFLICT':
+        return {
+          statusCode: 409,
+          body: {
+            success: false,
+            error: error.code,
+            message: error.message,
+          },
+        };
+      case 'BAD_REQUEST':
+        return {
+          statusCode: 400,
+          body: {
+            success: false,
+            error: error.code,
+            message: error.message,
+          },
+        };
+      case 'FORBIDDEN':
+        return {
+          statusCode: 403,
+          body: {
+            success: false,
+            error: error.code,
+            message: error.message,
+          },
+        };
       default:
         return {
           statusCode: 500,

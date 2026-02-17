@@ -103,10 +103,7 @@ export class TypeOrmBookShelfRepository implements IBookShelfRepository {
     return Result.success(undefined);
   }
 
-  async removeBook(
-    bookShelfId: string,
-    bookId: string,
-  ): Promise<Result<void>> {
+  async removeBook(bookShelfId: string, bookId: string): Promise<Result<void>> {
     await this.repository
       .createQueryBuilder()
       .relation(BookShelfEntity, 'books')

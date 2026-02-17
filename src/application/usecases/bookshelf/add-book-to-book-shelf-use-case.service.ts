@@ -41,10 +41,7 @@ export class AddBookToBookShelfUseCase
       return Result.failure(findBookResult.getFailure());
     }
 
-    await this.bookShelfRepository.addBook(
-      request.bookShelfId,
-      request.bookId,
-    );
+    await this.bookShelfRepository.addBook(request.bookShelfId, request.bookId);
 
     return await this.bookShelfRepository.findById(request.bookShelfId);
   }
