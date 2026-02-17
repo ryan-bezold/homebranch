@@ -165,11 +165,6 @@ export class TypeOrmBookRepository implements IBookRepository {
     limit?: number,
     offset?: number,
   ): Promise<Result<PaginationResult<Book[]>>> {
-    // const [bookEntities, total] = await this.repository.findAndCount({
-    //   where: { title: ILike(`%${title}%`) },
-    //   take: limit,
-    //   skip: offset,
-    // });
     const [bookEntities, total] = await this.repository
       .createQueryBuilder('book')
       .where('LOWER(book.title) LIKE LOWER(:title)', { title: `%${title}%` })
