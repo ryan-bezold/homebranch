@@ -6,9 +6,11 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { BookShelfEntity } from '../infrastructure/database/book-shelf.entity';
 import { UserEntity } from '../infrastructure/database/user.entity';
 import { RoleEntity } from '../infrastructure/database/role.entity';
+import { SavedPositionEntity } from '../infrastructure/database/saved-position.entity';
 import { SchemaUpdate1755566512418 } from '../migrations/1755566512418-schema-update';
 import { AddUserAndRoleTables1739836800000 } from '../migrations/1739836800000-AddUserAndRoleTables';
 import { SeedAdminRole1739836800001 } from '../migrations/1739836800001-SeedAdminRole';
+import { AddSavedPositionsTable1755566512419 } from '../migrations/1755566512419-AddSavedPositionsTable';
 
 @Module({
   imports: [
@@ -45,11 +47,12 @@ import { SeedAdminRole1739836800001 } from '../migrations/1739836800001-SeedAdmi
           username: username,
           password: password,
           database: database,
-          entities: [BookEntity, BookShelfEntity, UserEntity, RoleEntity],
+          entities: [BookEntity, BookShelfEntity, UserEntity, RoleEntity, SavedPositionEntity],
           migrations: [
             SchemaUpdate1755566512418,
             AddUserAndRoleTables1739836800000,
             SeedAdminRole1739836800001,
+            AddSavedPositionsTable1755566512419,
           ],
           migrationsRun: true,
           migrationsTableName: 'migration_table',
