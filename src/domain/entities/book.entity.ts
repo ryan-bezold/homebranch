@@ -4,7 +4,7 @@ export class Book {
     public title: string,
     public author: string,
     public fileName: string,
-    public isFavorited: boolean,
+    public isFavorite: boolean,
     public publishedYear?: number,
     public coverImageFileName?: string,
   ) {}

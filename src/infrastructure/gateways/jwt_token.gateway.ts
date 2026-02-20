@@ -4,9 +4,9 @@ import {
   TokenExpiredError,
   InvalidTokenError,
 } from 'src/domain/exceptions/auth.exceptions';
-import { ITokenGateway } from '../../application/interfaces/jwt-token.gateway';
+import { ITokenGateway } from 'src/application/interfaces/jwt-token.gateway';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload } from '../../domain/value-objects/token-payload.value-object';
+import { JwtPayload } from 'src/domain/value-objects/token-payload.value-object';
 
 @Injectable()
 export class JwtTokenGateway implements ITokenGateway {

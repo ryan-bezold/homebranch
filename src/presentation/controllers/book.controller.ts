@@ -3,56 +3,63 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Post,
   Put,
+  Query,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { CreateBookRequest } from 'src/application/contracts/create-book-request';
-import { UpdateBookRequest } from 'src/application/contracts/update-book-request';
-import { CreateBookUseCase } from 'src/application/usecases/create-book.usecase';
-import { DeleteBookUseCase } from 'src/application/usecases/delete-book.usecase';
-import { GetBooksUseCase } from 'src/application/usecases/get-books.usecase';
-import { UpdateBookUseCase } from 'src/application/usecases/update-book.usecase';
+import { CreateBookRequest } from 'src/application/contracts/book/create-book-request';
+import { UpdateBookRequest } from 'src/application/contracts/book/update-book-request';
+import { CreateBookUseCase } from 'src/application/usecases/book/create-book.usecase';
+import { DeleteBookUseCase } from 'src/application/usecases/book/delete-book.usecase';
+import { GetBooksUseCase } from 'src/application/usecases/book/get-books.usecase';
+import { UpdateBookUseCase } from 'src/application/usecases/book/update-book.usecase';
 import { UpdateBookDto } from '../dtos/update-book.dto';
-import { GetBookByIdUseCase } from 'src/application/usecases/get-book-by-id.usecase';
+import { GetBookByIdUseCase } from 'src/application/usecases/book/get-book-by-id.usecase';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { randomUUID } from 'crypto';
 import { join } from 'path';
-import { DeleteBookRequest } from 'src/application/contracts/delete-book-request';
-import { GetFavoritedBooksUseCase } from 'src/application/usecases/get-favorited-books.usecase';
-import { JwtAuthGuard } from '../../infrastructure/guards/jwt-auth.guard';
+import { DeleteBookRequest } from 'src/application/contracts/book/delete-book-request';
+import { GetFavoriteBooksUseCase } from 'src/application/usecases/book/get-favorite-books-use-case.service';
+import { JwtAuthGuard } from 'src/infrastructure/guards/jwt-auth.guard';
+import { MapResultInterceptor } from '../interceptors/map_result.interceptor';
+import { PaginatedQuery } from 'src/core/paginated-query';
 
 @Controller('books')
+@UseInterceptors(MapResultInterceptor)
 export class BookController {
   constructor(
     private readonly getBooksUseCase: GetBooksUseCase,
     private readonly getBookByIdUseCase: GetBookByIdUseCase,
-    private readonly getFavoritedBooksUseCase: GetFavoritedBooksUseCase,
+    private readonly getFavoriteBooksUseCase: GetFavoriteBooksUseCase,
     private readonly createBookUseCase: CreateBookUseCase,
     private readonly deleteBookUseCase: DeleteBookUseCase,
     private readonly updateBookUseCase: UpdateBookUseCase,
   ) {}
 
+  private readonly logger = new Logger('BookController');
   @Get()
   @UseGuards(JwtAuthGuard)
-  getBooks() {
-    return this.getBooksUseCase.execute();
+  getBooks(@Query() paginationDto: PaginatedQuery) {
+    this.logger.log(`Getting books with title ${paginationDto.query}`);
+    return this.getBooksUseCase.execute(paginationDto);
   }
 
-  @Get('favorited')
+  @Get('favorite')
   @UseGuards(JwtAuthGuard)
-  getFavoritedBooks() {
-    return this.getFavoritedBooksUseCase.execute();
+  getFavoriteBooks(@Query() paginationDto: PaginatedQuery) {
+    return this.getFavoriteBooksUseCase.execute(paginationDto);
   }
 
   @Get(`:id`)
   @UseGuards(JwtAuthGuard)
   getBookById(@Param('id') id: string) {
-    return this.getBookByIdUseCase.execute(id);
+    return this.getBookByIdUseCase.execute({ id });
   }
 
   @Post()
@@ -118,7 +125,7 @@ export class BookController {
       coverImage?: Express.Multer.File[];
     },
     @Body()
-    createBookRequest: Omit<CreateBookRequest, 'filePath' | 'coverImagePath'>,
+    createBookRequest: CreateBookRequest,
   ) {
     const request: CreateBookRequest = {
       ...createBookRequest,

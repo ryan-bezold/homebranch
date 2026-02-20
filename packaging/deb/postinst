@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+
+# Create system user if it doesn't exist
+if ! id -u homebranch >/dev/null 2>&1; then
+  useradd --system --no-create-home --shell /usr/sbin/nologin homebranch
+fi
+
+# Ensure uploads directory exists with correct ownership
+UPLOADS_DIR="/var/lib/homebranch/uploads"
+mkdir -p "$UPLOADS_DIR"
+chown homebranch:homebranch "$UPLOADS_DIR"
+
+# Reload systemd, enable and restart the service
+systemctl daemon-reload
+systemctl enable homebranch.service
+systemctl restart homebranch.service

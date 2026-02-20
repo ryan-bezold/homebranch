@@ -1,0 +1,16 @@
+[Unit]
+Description=HomeBranch Backend
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=homebranch
+Group=homebranch
+WorkingDirectory=/opt/homebranch
+ExecStart=/usr/bin/node dist/main
+EnvironmentFile=/etc/default/homebranch
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

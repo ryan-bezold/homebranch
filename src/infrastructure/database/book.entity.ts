@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BookShelfEntity } from 'src/infrastructure/database/book-shelf.entity';
 
 @Entity()
 export class BookEntity {
@@ -11,8 +12,8 @@ export class BookEntity {
   @Column()
   author: string;
 
-  @Column({ name: 'is_favorited' })
-  isFavorited: boolean;
+  @Column({ name: 'is_favorite' })
+  isFavorite: boolean;
 
   @Column({ name: 'published_year', nullable: true })
   publishedYear?: number;
@@ -22,4 +23,7 @@ export class BookEntity {
 
   @Column({ name: 'cover_image_file_name', nullable: true })
   coverImageFileName?: string;
+
+  @ManyToMany(() => BookShelfEntity, (bookShelf) => bookShelf.books)
+  bookShelves?: BookShelfEntity[];
 }

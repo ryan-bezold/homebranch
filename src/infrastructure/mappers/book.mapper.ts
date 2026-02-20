@@ -1,5 +1,5 @@
 import { Book } from 'src/domain/entities/book.entity';
-import { BookEntity } from '../database/book.entity';
+import { BookEntity } from 'src/infrastructure/database/book.entity';
 import { BookFactory } from 'src/domain/entities/book.factory';
 
 export class BookMapper {
@@ -9,7 +9,7 @@ export class BookMapper {
       bookEntity.title,
       bookEntity.author,
       bookEntity.fileName,
-      bookEntity.isFavorited,
+      bookEntity.isFavorite,
       bookEntity.publishedYear,
       bookEntity.coverImageFileName,
     );
@@ -21,7 +21,7 @@ export class BookMapper {
       title: book.title,
       author: book.author,
       fileName: book.fileName,
-      isFavorited: book.isFavorited,
+      isFavorite: book.isFavorite,
       publishedYear: book.publishedYear,
       coverImageFileName: book.coverImageFileName,
     };

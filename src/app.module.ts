@@ -1,7 +1,11 @@
-import { Module } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { TypeOrmConfigModule } from "./modules/typeorm.module";
-import { BooksModule } from "./modules/book.module";
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmConfigModule } from './modules/typeorm.module';
+import { BooksModule } from './modules/book.module';
+import { BookShelvesModule } from './modules/book-shelf.module';
+import { UsersModule } from './modules/user.module';
+import { SavedPositionsModule } from './modules/saved-position.module';
+import { HealthModule } from './modules/health.module';
 
 @Module({
   imports: [
@@ -10,12 +14,17 @@ import { BooksModule } from "./modules/book.module";
       isGlobal: true,
       envFilePath: ['.env.local', '.env'],
     }),
-    
+
+    HealthModule,
+
     // Database configuration
     TypeOrmConfigModule,
-    
+
     // Feature modules
     BooksModule,
+    BookShelvesModule,
+    UsersModule,
+    SavedPositionsModule,
   ],
   controllers: [],
   providers: [],

@@ -1,4 +1,4 @@
-import { Book } from './book.entity';
+import { Book } from 'src/domain/entities/book.entity';
 
 export class BookFactory {
   static create(
@@ -6,7 +6,7 @@ export class BookFactory {
     title: string,
     author: string,
     fileName: string,
-    isFavorited: boolean = false,
+    isFavorite: boolean = false,
     publishedYear?: number,
     coverImageFileName?: string,
   ): Book {
@@ -19,7 +19,7 @@ export class BookFactory {
       title,
       author,
       fileName,
-      isFavorited,
+      isFavorite,
       publishedYear,
       coverImageFileName,
     );

@@ -1,4 +1,4 @@
-// infrastructure/filters/domain-exception.filter.ts
+// infrastructure/filters/domain-failure.filter.ts
 import {
   ExceptionFilter,
   Catch,
@@ -13,14 +13,14 @@ import {
   RefreshTokenRevokedError,
   TokenExpiredError,
 } from 'src/domain/exceptions/auth.exceptions';
-import { BookNotFoundError } from 'src/domain/exceptions/book.exceptions';
-import { DomainException } from '../../domain/exceptions/domain_exception';
+import { ForbiddenError } from 'src/domain/exceptions/forbidden.exception';
+import { DomainException } from 'src/domain/exceptions/domain_exception';
 
 @Catch(DomainException)
 export class DomainExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger(DomainExceptionFilter.name);
 
-  catch(exception: unknown, host: ArgumentsHost) {
+  catch(failure: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
@@ -29,39 +29,38 @@ export class DomainExceptionFilter implements ExceptionFilter {
     let message: string;
     let code: string;
 
-    // Map domain exceptions to HTTP responses
-    if (exception instanceof InvalidCredentialsError) {
+    // Map domain failures to HTTP responses
+    if (failure instanceof InvalidCredentialsError) {
       status = HttpStatus.UNAUTHORIZED;
-      message = exception.message;
+      message = failure.message;
       code = 'INVALID_CREDENTIALS';
-    } else if (exception instanceof InvalidTokenError) {
+    } else if (failure instanceof InvalidTokenError) {
       status = HttpStatus.UNAUTHORIZED;
-      message = exception.message;
+      message = failure.message;
       code = 'INVALID_TOKEN';
-    } else if (exception instanceof TokenExpiredError) {
+    } else if (failure instanceof TokenExpiredError) {
       status = HttpStatus.UNAUTHORIZED;
-      message = exception.message;
+      message = failure.message;
       code = 'TOKEN_EXPIRED';
-    } else if (exception instanceof RefreshTokenRevokedError) {
+    } else if (failure instanceof RefreshTokenRevokedError) {
       status = HttpStatus.UNAUTHORIZED;
-      message = exception.message;
+      message = failure.message;
       code = 'REFRESH_TOKEN_REVOKED';
-    } else if (exception instanceof BookNotFoundError) {
-      status = HttpStatus.NOT_FOUND;
-      message = exception.message;
-      code = 'BOOK_NOT_FOUND';
-    } else if (exception instanceof Error) {
+    } else if (failure instanceof ForbiddenError) {
+      status = HttpStatus.FORBIDDEN;
+      message = failure.message;
+      code = 'FORBIDDEN';
+    } else if (failure instanceof Error) {
       // Generic error handling
       status = HttpStatus.INTERNAL_SERVER_ERROR;
       message = 'Internal server error';
       code = 'INTERNAL_ERROR';
 
       // Log unexpected errors
-      this.logger.error(
-        `Unexpected error: ${exception.message}`,
-        exception.stack,
-        { url: request.url, method: request.method },
-      );
+      this.logger.error(`Unexpected error: ${failure.message}`, failure.stack, {
+        url: request.url,
+        method: request.method,
+      });
     } else {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
       message = 'Unknown error occurred';
