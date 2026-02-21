@@ -1,12 +1,12 @@
 /* eslint-disable */
 import { Test, TestingModule } from '@nestjs/testing';
-import { IBookShelfRepository } from '../../interfaces/bookshelf-repository';
+import { IBookShelfRepository } from 'src/application/interfaces/bookshelf-repository';
 import { Result } from 'src/core/result';
 import { BookShelf } from 'src/domain/entities/bookshelf.entity';
 import { Book } from 'src/domain/entities/book.entity';
 import { BookShelfNotFoundFailure } from 'src/domain/failures/bookshelf.failures';
-import { RemoveBookFromBookShelfUseCase } from './remove-book-from-book-shelf-use-case.service';
-import { RemoveBookFromBookShelfRequest } from '../../contracts/bookshelf/remove-book-from-book-shelf-request';
+import { RemoveBookFromBookShelfUseCase } from 'src/application/usecases/bookshelf/remove-book-from-book-shelf-use-case.service';
+import { RemoveBookFromBookShelfRequest } from 'src/application/contracts/bookshelf/remove-book-from-book-shelf-request';
 
 describe('RemoveBookFromBookShelfUseCase', () => {
   let useCase: RemoveBookFromBookShelfUseCase;

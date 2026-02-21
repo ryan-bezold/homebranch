@@ -1,24 +1,23 @@
 /* eslint-disable */
 import { Test, TestingModule } from '@nestjs/testing';
-import { IUserRepository } from '../../interfaces/user-repository';
+import { IUserRepository } from 'src/application/interfaces/user-repository';
 import { Result } from 'src/core/result';
 import { User } from 'src/domain/entities/user.entity';
-import { RestrictUserUseCase } from './restrict-user.usecase';
+import { GetUserByIdUseCase } from 'src/application/usecases/user/get-user-by-id.usecase';
 import { UserNotFoundFailure } from 'src/domain/failures/user.failures';
 
-describe('RestrictUserUseCase', () => {
-  let useCase: RestrictUserUseCase;
+describe('GetUserByIdUseCase', () => {
+  let useCase: GetUserByIdUseCase;
   let userRepository: jest.Mocked<IUserRepository>;
 
   beforeEach(async () => {
     const mockUserRepository = {
       findById: jest.fn(),
-      update: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        RestrictUserUseCase,
+        GetUserByIdUseCase,
         {
           provide: 'UserRepository',
           useValue: mockUserRepository,
@@ -26,7 +25,7 @@ describe('RestrictUserUseCase', () => {
       ],
     }).compile();
 
-    useCase = module.get<RestrictUserUseCase>(RestrictUserUseCase);
+    useCase = module.get<GetUserByIdUseCase>(GetUserByIdUseCase);
     userRepository = module.get('UserRepository');
   });
 
@@ -35,21 +34,16 @@ describe('RestrictUserUseCase', () => {
   });
 
   describe('execute', () => {
-    it('should restrict a user', async () => {
+    it('should return a user when found', async () => {
       const mockUser = new User('user-1', 'alice', 'alice@example.com', false);
-      const restrictedUser = new User('user-1', 'alice', 'alice@example.com', true);
 
       userRepository.findById.mockResolvedValue(Result.success(mockUser));
-      userRepository.update.mockResolvedValue(Result.success(restrictedUser));
 
       const result = await useCase.execute({ id: 'user-1' });
 
       expect(result.isSuccess()).toBe(true);
-      expect(result.getValue().isRestricted).toBe(true);
-      expect(userRepository.update).toHaveBeenCalledWith(
-        'user-1',
-        expect.objectContaining({ isRestricted: true }),
-      );
+      expect(result.getValue()).toEqual(mockUser);
+      expect(userRepository.findById).toHaveBeenCalledWith('user-1');
     });
 
     it('should return failure when user is not found', async () => {

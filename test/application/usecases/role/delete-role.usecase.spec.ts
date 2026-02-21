@@ -1,11 +1,11 @@
 /* eslint-disable */
 import { Test, TestingModule } from '@nestjs/testing';
-import { IRoleRepository } from '../../interfaces/role-repository';
-import { IUserRepository } from '../../interfaces/user-repository';
+import { IRoleRepository } from 'src/application/interfaces/role-repository';
+import { IUserRepository } from 'src/application/interfaces/user-repository';
 import { Result } from 'src/core/result';
 import { Role } from 'src/domain/entities/role.entity';
 import { Permission } from 'src/domain/value-objects/permission.enum';
-import { DeleteRoleUseCase } from './delete-role.usecase';
+import { DeleteRoleUseCase } from 'src/application/usecases/role/delete-role.usecase';
 import {
   RoleNotFoundFailure,
   RoleHasAssignedUsersFailure,

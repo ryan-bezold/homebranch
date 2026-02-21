@@ -1,10 +1,10 @@
 /* eslint-disable */
 import { Test, TestingModule } from '@nestjs/testing';
-import { IRoleRepository } from '../../interfaces/role-repository';
+import { IRoleRepository } from 'src/application/interfaces/role-repository';
 import { Result } from 'src/core/result';
 import { Role } from 'src/domain/entities/role.entity';
 import { Permission } from 'src/domain/value-objects/permission.enum';
-import { CreateRoleUseCase } from './create-role.usecase';
+import { CreateRoleUseCase } from 'src/application/usecases/role/create-role.usecase';
 import {
   DuplicateRoleNameFailure,
   RoleNotFoundFailure,
@@ -64,7 +64,9 @@ describe('CreateRoleUseCase', () => {
     });
 
     it('should return failure when role name already exists', async () => {
-      const existingRole = new Role('role-1', 'editor', [Permission.MANAGE_BOOKS]);
+      const existingRole = new Role('role-1', 'editor', [
+        Permission.MANAGE_BOOKS,
+      ]);
 
       roleRepository.findByName.mockResolvedValue(Result.success(existingRole));
 

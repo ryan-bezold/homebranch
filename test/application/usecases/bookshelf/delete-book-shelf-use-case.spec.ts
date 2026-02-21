@@ -1,9 +1,9 @@
 /* eslint-disable */
 import { Test, TestingModule } from '@nestjs/testing';
-import { IBookShelfRepository } from '../../interfaces/bookshelf-repository';
+import { IBookShelfRepository } from 'src/application/interfaces/bookshelf-repository';
 import { Result } from 'src/core/result';
 import { BookShelf } from 'src/domain/entities/bookshelf.entity';
-import { DeleteBookShelfUseCase } from './delete-book-shelf-use-case.service';
+import { DeleteBookShelfUseCase } from 'src/application/usecases/bookshelf/delete-book-shelf-use-case.service';
 import { BookShelfNotFoundFailure } from 'src/domain/failures/bookshelf.failures';
 
 describe('DeleteBookShelfUseCase', () => {

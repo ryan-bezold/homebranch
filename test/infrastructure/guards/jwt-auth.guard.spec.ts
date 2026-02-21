@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { ExecutionContext } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtAuthGuard } from 'src/infrastructure/guards/jwt-auth.guard';
 import { ITokenGateway } from 'src/application/interfaces/jwt-token.gateway';
 import { IUserRepository } from 'src/application/interfaces/user-repository';
 import { IRoleRepository } from 'src/application/interfaces/role-repository';
@@ -10,7 +10,10 @@ import { User } from 'src/domain/entities/user.entity';
 import { Role } from 'src/domain/entities/role.entity';
 import { Permission } from 'src/domain/value-objects/permission.enum';
 import { JwtPayload } from 'src/domain/value-objects/token-payload.value-object';
-import { InvalidTokenError, TokenExpiredError } from 'src/domain/exceptions/auth.exceptions';
+import {
+  InvalidTokenError,
+  TokenExpiredError,
+} from 'src/domain/exceptions/auth.exceptions';
 import { ForbiddenError } from 'src/domain/exceptions/forbidden.exception';
 import { UserNotFoundFailure } from 'src/domain/failures/user.failures';
 
@@ -85,7 +88,13 @@ describe('JwtAuthGuard', () => {
   });
 
   it('should return true for an existing user', async () => {
-    const existingUser = new User('user-1', 'alice', 'alice@example.com', false, adminRole);
+    const existingUser = new User(
+      'user-1',
+      'alice',
+      'alice@example.com',
+      false,
+      adminRole,
+    );
     tokenGateway.verifyAccessToken.mockResolvedValue(mockPayload);
     userRepository.findById.mockResolvedValue(Result.success(existingUser));
 
@@ -101,11 +110,24 @@ describe('JwtAuthGuard', () => {
   });
 
   it('should assign admin role to the first user created', async () => {
-    const newUser = new User('user-1', 'alice@example.com', 'alice@example.com', false);
-    const userWithRole = new User('user-1', 'alice@example.com', 'alice@example.com', false, adminRole);
+    const newUser = new User(
+      'user-1',
+      'alice@example.com',
+      'alice@example.com',
+      false,
+    );
+    const userWithRole = new User(
+      'user-1',
+      'alice@example.com',
+      'alice@example.com',
+      false,
+      adminRole,
+    );
 
     tokenGateway.verifyAccessToken.mockResolvedValue(mockPayload);
-    userRepository.findById.mockResolvedValue(Result.failure(new UserNotFoundFailure()));
+    userRepository.findById.mockResolvedValue(
+      Result.failure(new UserNotFoundFailure()),
+    );
     userRepository.create.mockResolvedValue(Result.success(newUser));
     userRepository.count.mockResolvedValue(1);
     roleRepository.findByName.mockResolvedValue(Result.success(adminRole));
@@ -117,19 +139,35 @@ describe('JwtAuthGuard', () => {
     expect(result).toBe(true);
     expect(userRepository.count).toHaveBeenCalled();
     expect(roleRepository.findByName).toHaveBeenCalledWith('admin');
-    expect(userRepository.update).toHaveBeenCalledWith('user-1', expect.objectContaining({ role: adminRole }));
+    expect(userRepository.update).toHaveBeenCalledWith(
+      'user-1',
+      expect.objectContaining({ role: adminRole }),
+    );
 
     const request = context.switchToHttp().getRequest();
     expect(request['user'].role).toEqual(adminRole);
   });
 
   it('should not assign admin role to subsequent new users', async () => {
-    const newUser = new User('user-2', 'bob@example.com', 'bob@example.com', false);
+    const newUser = new User(
+      'user-2',
+      'bob@example.com',
+      'bob@example.com',
+      false,
+    );
 
     tokenGateway.verifyAccessToken.mockResolvedValue(
-      new JwtPayload('user-2', 'bob@example.com', [], new Date(), new Date(Date.now() + 3600000)),
+      new JwtPayload(
+        'user-2',
+        'bob@example.com',
+        [],
+        new Date(),
+        new Date(Date.now() + 3600000),
+      ),
     );
-    userRepository.findById.mockResolvedValue(Result.failure(new UserNotFoundFailure()));
+    userRepository.findById.mockResolvedValue(
+      Result.failure(new UserNotFoundFailure()),
+    );
     userRepository.create.mockResolvedValue(Result.success(newUser));
     userRepository.count.mockResolvedValue(2);
 
@@ -146,7 +184,12 @@ describe('JwtAuthGuard', () => {
   });
 
   it('should throw ForbiddenError for a restricted user', async () => {
-    const restrictedUser = new User('user-1', 'alice', 'alice@example.com', true);
+    const restrictedUser = new User(
+      'user-1',
+      'alice',
+      'alice@example.com',
+      true,
+    );
     tokenGateway.verifyAccessToken.mockResolvedValue(mockPayload);
     userRepository.findById.mockResolvedValue(Result.success(restrictedUser));
 

@@ -1,9 +1,9 @@
 /* eslint-disable */
 import { Test, TestingModule } from '@nestjs/testing';
-import { IUserRepository } from '../../interfaces/user-repository';
+import { IUserRepository } from 'src/application/interfaces/user-repository';
 import { Result } from 'src/core/result';
 import { User } from 'src/domain/entities/user.entity';
-import { GetUsersUseCase } from './get-users.usecase';
+import { GetUsersUseCase } from 'src/application/usecases/user/get-users.usecase';
 
 describe('GetUsersUseCase', () => {
   let useCase: GetUsersUseCase;

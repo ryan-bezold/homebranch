@@ -1,10 +1,10 @@
 /* eslint-disable */
 import { Test, TestingModule } from '@nestjs/testing';
-import { IRoleRepository } from '../../interfaces/role-repository';
+import { IRoleRepository } from 'src/application/interfaces/role-repository';
 import { Result } from 'src/core/result';
 import { Role } from 'src/domain/entities/role.entity';
 import { Permission } from 'src/domain/value-objects/permission.enum';
-import { UpdateRoleUseCase } from './update-role.usecase';
+import { UpdateRoleUseCase } from 'src/application/usecases/role/update-role.usecase';
 import { RoleNotFoundFailure } from 'src/domain/failures/role.failures';
 
 describe('UpdateRoleUseCase', () => {
@@ -37,7 +37,9 @@ describe('UpdateRoleUseCase', () => {
 
   describe('execute', () => {
     it('should update a role permissions', async () => {
-      const existingRole = new Role('role-1', 'editor', [Permission.MANAGE_BOOKS]);
+      const existingRole = new Role('role-1', 'editor', [
+        Permission.MANAGE_BOOKS,
+      ]);
       const updatedRole = new Role('role-1', 'editor', [
         Permission.MANAGE_BOOKS,
         Permission.MANAGE_BOOKSHELVES,
@@ -52,7 +54,9 @@ describe('UpdateRoleUseCase', () => {
       });
 
       expect(result.isSuccess()).toBe(true);
-      expect(result.getValue().permissions).toContain(Permission.MANAGE_BOOKSHELVES);
+      expect(result.getValue().permissions).toContain(
+        Permission.MANAGE_BOOKSHELVES,
+      );
     });
 
     it('should return failure when role is not found', async () => {

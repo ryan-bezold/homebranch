@@ -1,9 +1,9 @@
 /* eslint-disable */
 import { Test, TestingModule } from '@nestjs/testing';
-import { IUserRepository } from '../../interfaces/user-repository';
+import { IUserRepository } from 'src/application/interfaces/user-repository';
 import { Result } from 'src/core/result';
 import { User } from 'src/domain/entities/user.entity';
-import { UnrestrictUserUseCase } from './unrestrict-user.usecase';
+import { UnrestrictUserUseCase } from 'src/application/usecases/user/unrestrict-user.usecase';
 import { UserNotFoundFailure } from 'src/domain/failures/user.failures';
 
 describe('UnrestrictUserUseCase', () => {
@@ -37,7 +37,12 @@ describe('UnrestrictUserUseCase', () => {
   describe('execute', () => {
     it('should unrestrict a user', async () => {
       const mockUser = new User('user-1', 'alice', 'alice@example.com', true);
-      const unrestrictedUser = new User('user-1', 'alice', 'alice@example.com', false);
+      const unrestrictedUser = new User(
+        'user-1',
+        'alice',
+        'alice@example.com',
+        false,
+      );
 
       userRepository.findById.mockResolvedValue(Result.success(mockUser));
       userRepository.update.mockResolvedValue(Result.success(unrestrictedUser));

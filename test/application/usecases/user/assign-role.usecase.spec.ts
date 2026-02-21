@@ -1,12 +1,12 @@
 /* eslint-disable */
 import { Test, TestingModule } from '@nestjs/testing';
-import { IUserRepository } from '../../interfaces/user-repository';
-import { IRoleRepository } from '../../interfaces/role-repository';
+import { IUserRepository } from 'src/application/interfaces/user-repository';
+import { IRoleRepository } from 'src/application/interfaces/role-repository';
 import { Result } from 'src/core/result';
 import { User } from 'src/domain/entities/user.entity';
 import { Role } from 'src/domain/entities/role.entity';
 import { Permission } from 'src/domain/value-objects/permission.enum';
-import { AssignRoleUseCase } from './assign-role.usecase';
+import { AssignRoleUseCase } from 'src/application/usecases/user/assign-role.usecase';
 import { UserNotFoundFailure } from 'src/domain/failures/user.failures';
 import { RoleNotFoundFailure } from 'src/domain/failures/role.failures';
 
@@ -53,7 +53,13 @@ describe('AssignRoleUseCase', () => {
     const mockUser = new User('user-1', 'alice', 'alice@example.com', false);
 
     it('should assign a role to a user', async () => {
-      const updatedUser = new User('user-1', 'alice', 'alice@example.com', false, mockRole);
+      const updatedUser = new User(
+        'user-1',
+        'alice',
+        'alice@example.com',
+        false,
+        mockRole,
+      );
 
       userRepository.findById.mockResolvedValue(Result.success(mockUser));
       roleRepository.findById.mockResolvedValue(Result.success(mockRole));

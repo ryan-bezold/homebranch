@@ -1,13 +1,13 @@
 /* eslint-disable */
 import { Test, TestingModule } from '@nestjs/testing';
-import { IBookRepository } from '../../interfaces/book-repository';
-import { IBookShelfRepository } from '../../interfaces/bookshelf-repository';
+import { IBookRepository } from 'src/application/interfaces/book-repository';
+import { IBookShelfRepository } from 'src/application/interfaces/bookshelf-repository';
 import { Result } from 'src/core/result';
 import { BookShelf } from 'src/domain/entities/bookshelf.entity';
 import { Book } from 'src/domain/entities/book.entity';
-import { AddBookToBookShelfRequest } from '../../contracts/bookshelf/add-book-to-book-shelf-request';
+import { AddBookToBookShelfRequest } from 'src/application/contracts/bookshelf/add-book-to-book-shelf-request';
 import { BookNotFoundFailure } from 'src/domain/failures/book.failures';
-import { AddBookToBookShelfUseCase } from './add-book-to-book-shelf-use-case.service';
+import { AddBookToBookShelfUseCase } from 'src/application/usecases/bookshelf/add-book-to-book-shelf-use-case.service';
 import { BookShelfNotFoundFailure } from 'src/domain/failures/bookshelf.failures';
 
 describe('AddBookToBookShelfUseCase', () => {

@@ -1,10 +1,10 @@
 /* eslint-disable */
 import { Test, TestingModule } from '@nestjs/testing';
-import { IRoleRepository } from '../../interfaces/role-repository';
+import { IRoleRepository } from 'src/application/interfaces/role-repository';
 import { Result } from 'src/core/result';
 import { Role } from 'src/domain/entities/role.entity';
 import { Permission } from 'src/domain/value-objects/permission.enum';
-import { GetRolesUseCase } from './get-roles.usecase';
+import { GetRolesUseCase } from 'src/application/usecases/role/get-roles.usecase';
 
 describe('GetRolesUseCase', () => {
   let useCase: GetRolesUseCase;
@@ -36,7 +36,10 @@ describe('GetRolesUseCase', () => {
   describe('execute', () => {
     it('should return a list of roles', async () => {
       const mockRoles: Role[] = [
-        new Role('role-1', 'admin', [Permission.MANAGE_USERS, Permission.MANAGE_ROLES]),
+        new Role('role-1', 'admin', [
+          Permission.MANAGE_USERS,
+          Permission.MANAGE_ROLES,
+        ]),
         new Role('role-2', 'user', []),
       ];
 
