@@ -21,7 +21,7 @@ export class ResultMapper {
 
     const error = result.failure;
 
-    switch (error.code) {
+    switch (error?.code) {
       case 'NOT_FOUND':
         return {
           statusCode: 404,
@@ -63,8 +63,8 @@ export class ResultMapper {
           statusCode: 500,
           body: {
             success: false,
-            error: error.code,
-            message: error.message,
+            error: error?.code ?? 'INTERNAL_SERVER_ERROR',
+            message: error?.message ?? 'An unexpected error occurred',
           },
         };
     }

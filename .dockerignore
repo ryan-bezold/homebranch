@@ -4,3 +4,4 @@ dist
 *.md
 .git
 .env
+tsconfig.build.tsbuildinfo
