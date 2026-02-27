@@ -18,7 +18,23 @@ export class GetAuthorUseCase implements UseCase<GetAuthorRequest, Author> {
   async execute({ name }: GetAuthorRequest): Promise<Result<Author>> {
     const existingResult = await this.authorRepository.findByName(name);
     if (existingResult.isSuccess()) {
-      return existingResult;
+      const existing = existingResult.value;
+      if (existing.biography !== null || existing.profilePictureUrl !== null) {
+        return existingResult;
+      }
+      // Author exists but was stored without enrichment — retry Open Library
+      const enrichment =
+        await this.openLibraryGateway.findAuthorEnrichment(name);
+      if (enrichment.biography === null && enrichment.photoUrl === null) {
+        return existingResult;
+      }
+      const updated = AuthorFactory.create(
+        existing.id,
+        existing.name,
+        enrichment.biography,
+        enrichment.photoUrl,
+      );
+      return await this.authorRepository.updateByName(name, updated);
     }
 
     const enrichment = await this.openLibraryGateway.findAuthorEnrichment(name);

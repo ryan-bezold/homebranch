@@ -13,12 +13,14 @@ import { UploadAuthorProfilePictureUseCase } from 'src/application/usecases/auth
 import { AuthorController } from 'src/presentation/controllers/author.controller';
 import { AuthModule } from 'src/modules/auth.module';
 import { UsersModule } from 'src/modules/user.module';
+import { BooksModule } from 'src/modules/book.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([AuthorEntity, BookEntity]),
     AuthModule,
     forwardRef(() => UsersModule),
+    forwardRef(() => BooksModule),
   ],
   providers: [
     {

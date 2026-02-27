@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from 'src/app.module';
 import { DomainExceptionFilter } from 'src/infrastructure/filters/domain-exception.filter';
 import { existsSync, mkdirSync } from 'fs';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import * as express from 'express';
 import * as cookieParser from 'cookie-parser';
 
@@ -52,7 +52,7 @@ async function bootstrap() {
     );
     mkdirSync(authorImagesDirectory, { recursive: true });
   }
-  app.use('/uploads', express.static(join(process.cwd(), uploadsDirectory)));
+  app.use('/uploads', express.static(resolve(uploadsDirectory)));
   await app.listen(port);
   logger.log(`Application is running on: http://localhost:${port}`);
   logger.log(`Environment: ${process.env.NODE_ENV || 'development'}`);

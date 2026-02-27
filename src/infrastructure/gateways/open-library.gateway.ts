@@ -54,8 +54,12 @@ export class OpenLibraryGateway {
 
       return { biography, photoUrl };
     } catch (error) {
+      const cause =
+        error instanceof TypeError && error.cause instanceof Error
+          ? ` (${error.cause.message})`
+          : '';
       this.logger.warn(
-        `Failed to enrich author "${name}" from Open Library: ${error instanceof Error ? error.message : String(error)}`,
+        `Failed to enrich author "${name}" from Open Library: ${error instanceof Error ? error.message : String(error)}${cause}`,
       );
       return { biography: null, photoUrl: null };
     }

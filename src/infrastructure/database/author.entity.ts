@@ -11,6 +11,6 @@ export class AuthorEntity {
   @Column({ type: 'text', nullable: true })
   biography: string | null;
 
-  @Column({ name: 'profile_picture_url', nullable: true })
+  @Column({ type: 'text', name: 'profile_picture_url', nullable: true })
   profilePictureUrl: string | null;
 }
