@@ -52,10 +52,10 @@ describe('GetFavoriteBooksUseCase', () => {
     };
     bookRepository.findFavorites.mockResolvedValueOnce(Result.ok(paginationResult));
 
-    const result = await useCase.execute({ limit: 10, offset: 0 });
+    const result = await useCase.execute({ limit: 10, offset: 0, userId: 'user-123' });
 
     expect(bookRepository.findFavorites).toHaveBeenCalledTimes(1);
-    expect(bookRepository.findFavorites).toHaveBeenCalledWith(10, 0);
+    expect(bookRepository.findFavorites).toHaveBeenCalledWith(10, 0, 'user-123');
     expect(bookRepository.searchFavoritesByTitle).not.toHaveBeenCalled();
     expect(result.isSuccess()).toBe(true);
     expect(result.value).toEqual(paginationResult);
@@ -77,10 +77,11 @@ describe('GetFavoriteBooksUseCase', () => {
       limit: 10,
       offset: 0,
       query: 'Test Book',
+      userId: 'user-123',
     });
 
     expect(bookRepository.searchFavoritesByTitle).toHaveBeenCalledTimes(1);
-    expect(bookRepository.searchFavoritesByTitle).toHaveBeenCalledWith('Test Book', 10, 0);
+    expect(bookRepository.searchFavoritesByTitle).toHaveBeenCalledWith('Test Book', 10, 0, 'user-123');
     expect(bookRepository.findFavorites).not.toHaveBeenCalled();
     expect(result.isSuccess()).toBe(true);
     expect(result.value).toEqual(paginationResult);
@@ -96,7 +97,7 @@ describe('GetFavoriteBooksUseCase', () => {
     };
     bookRepository.findFavorites.mockResolvedValueOnce(Result.ok(paginationResult));
 
-    const result = await useCase.execute({ limit: 10, offset: 0 });
+    const result = await useCase.execute({ limit: 10, offset: 0, userId: 'user-123' });
 
     expect(bookRepository.findFavorites).toHaveBeenCalledTimes(1);
     expect(result.isSuccess()).toBe(true);

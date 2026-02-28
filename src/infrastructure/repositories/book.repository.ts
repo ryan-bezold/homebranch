@@ -22,8 +22,9 @@ export class TypeOrmBookRepository implements IBookRepository {
     return Result.ok(BookMapper.toDomain(savedEntity));
   }
 
-  async findAll(limit?: number, offset?: number): Promise<Result<PaginationResult<Book[]>>> {
+  async findAll(limit?: number, offset?: number, userId?: string): Promise<Result<PaginationResult<Book[]>>> {
     const [bookEntities, total] = await this.repository.findAndCount({
+      where: userId ? { uploadedByUserId: userId } : {},
       order: { author: 'ASC', title: 'ASC' },
       take: limit,
       skip: offset,
@@ -118,9 +119,9 @@ export class TypeOrmBookRepository implements IBookRepository {
     });
   }
 
-  async findFavorites(limit?: number, offset?: number): Promise<Result<PaginationResult<Book[]>>> {
+  async findFavorites(limit?: number, offset?: number, userId?: string): Promise<Result<PaginationResult<Book[]>>> {
     const [bookEntities, total] = await this.repository.findAndCount({
-      where: { isFavorite: true },
+      where: userId ? { isFavorite: true, uploadedByUserId: userId } : { isFavorite: true },
       order: { author: 'ASC', title: 'ASC' },
       take: limit,
       skip: offset,
@@ -140,10 +141,16 @@ export class TypeOrmBookRepository implements IBookRepository {
     return Result.fail(new BookNotFoundFailure());
   }
 
-  async searchByTitle(title: string, limit?: number, offset?: number): Promise<Result<PaginationResult<Book[]>>> {
-    const [bookEntities, total] = await this.repository
+  async searchByTitle(title: string, limit?: number, offset?: number, userId?: string): Promise<Result<PaginationResult<Book[]>>> {
+    const queryBuilder = this.repository
       .createQueryBuilder('book')
-      .where('LOWER(book.title) LIKE LOWER(:title)', { title: `%${title}%` })
+      .where('LOWER(book.title) LIKE LOWER(:title)', { title: `%${title}%` });
+
+    if (userId) {
+      queryBuilder.andWhere('book.uploadedByUserId = :userId', { userId });
+    }
+
+    const [bookEntities, total] = await queryBuilder
       .orderBy('book.author', 'ASC')
       .addOrderBy('book.title', 'ASC')
       .limit(limit)
@@ -163,11 +170,18 @@ export class TypeOrmBookRepository implements IBookRepository {
     title: string,
     limit?: number,
     offset?: number,
+    userId?: string,
   ): Promise<Result<PaginationResult<Book[]>>> {
-    const [bookEntities, total] = await this.repository
+    const queryBuilder = this.repository
       .createQueryBuilder('book')
       .where('LOWER(book.title) LIKE LOWER(:title)', { title: `%${title}%` })
-      .andWhere('book.isFavorite = true')
+      .andWhere('book.isFavorite = true');
+
+    if (userId) {
+      queryBuilder.andWhere('book.uploadedByUserId = :userId', { userId });
+    }
+
+    const [bookEntities, total] = await queryBuilder
       .orderBy('book.author', 'ASC')
       .addOrderBy('book.title', 'ASC')
       .limit(limit)

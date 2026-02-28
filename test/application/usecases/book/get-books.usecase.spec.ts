@@ -45,10 +45,10 @@ describe('GetBooksUseCase', () => {
     };
     bookRepository.findAll.mockResolvedValueOnce(Result.ok(paginationResult));
 
-    const result = await useCase.execute({ limit: 10, offset: 0 });
+    const result = await useCase.execute({ limit: 10, offset: 0, userId: 'user-123' });
 
     expect(bookRepository.findAll).toHaveBeenCalledTimes(1);
-    expect(bookRepository.findAll).toHaveBeenCalledWith(10, 0);
+    expect(bookRepository.findAll).toHaveBeenCalledWith(10, 0, 'user-123');
     expect(result.isSuccess()).toBe(true);
     expect(result.value).toEqual(paginationResult);
   });
@@ -64,10 +64,10 @@ describe('GetBooksUseCase', () => {
     };
     bookRepository.searchByTitle.mockResolvedValueOnce(Result.ok(paginationResult));
 
-    const result = await useCase.execute({ limit: 10, offset: 0, query: 'Test Book' });
+    const result = await useCase.execute({ limit: 10, offset: 0, query: 'Test Book', userId: 'user-123' });
 
     expect(bookRepository.searchByTitle).toHaveBeenCalledTimes(1);
-    expect(bookRepository.searchByTitle).toHaveBeenCalledWith('Test Book', 10, 0);
+    expect(bookRepository.searchByTitle).toHaveBeenCalledWith('Test Book', 10, 0, 'user-123');
     expect(bookRepository.findAll).not.toHaveBeenCalled();
     expect(result.isSuccess()).toBe(true);
     expect(result.value).toEqual(paginationResult);
@@ -83,7 +83,7 @@ describe('GetBooksUseCase', () => {
     };
     bookRepository.findAll.mockResolvedValueOnce(Result.ok(paginationResult));
 
-    const result = await useCase.execute({ limit: 10, offset: 0 });
+    const result = await useCase.execute({ limit: 10, offset: 0, userId: 'user-123' });
 
     expect(bookRepository.findAll).toHaveBeenCalledTimes(1);
     expect(result.isSuccess()).toBe(true);
