@@ -10,6 +10,7 @@ export class BookFactory {
     publishedYear?: number,
     coverImageFileName?: string,
     summary?: string,
+    uploadedByUserId?: string,
   ): Book {
     if (!title || !author) {
       throw new Error('Title and author are required to create a book.');
@@ -24,6 +25,7 @@ export class BookFactory {
       publishedYear,
       coverImageFileName,
       summary,
+      uploadedByUserId,
     );
   }
 }

@@ -27,6 +27,9 @@ export class BookEntity {
   @Column({ type: 'text', nullable: true, default: null })
   summary?: string;
 
+  @Column({ name: 'uploaded_by_user_id', nullable: true })
+  uploadedByUserId?: string;
+
   @ManyToMany(() => BookShelfEntity, (bookShelf) => bookShelf.books)
   bookShelves?: BookShelfEntity[];
 }

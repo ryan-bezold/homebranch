@@ -8,6 +8,7 @@ import {
   Post,
   Put,
   Query,
+  Req,
   Res,
   StreamableFile,
   UploadedFiles,
@@ -34,7 +35,7 @@ import { PaginatedQuery } from 'src/core/paginated-query';
 import { DownloadBookUseCase } from 'src/application/usecases/book/download-book.usecase';
 import { createReadStream, existsSync } from 'fs';
 import { basename } from 'path';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { FetchBookSummaryUseCase } from 'src/application/usecases/book/fetch-book-summary.usecase';
 
 @Controller('books')
@@ -128,6 +129,7 @@ export class BookController {
     ),
   )
   createBook(
+    @Req() request: Request,
     @UploadedFiles()
     files: {
       file?: Express.Multer.File[];
@@ -136,15 +138,16 @@ export class BookController {
     @Body()
     createBookRequest: CreateBookRequest,
   ) {
-    const request: CreateBookRequest = {
+    const bookRequest: CreateBookRequest = {
       ...createBookRequest,
       fileName: files.file!.at(0)!.filename,
       coverImageFileName: files.coverImage?.at(0)?.filename,
+      uploadedByUserId: request['user'].id,
     };
 
-    console.log('Create book request:', request);
+    console.log('Create book request:', bookRequest);
 
-    return this.createBookUseCase.execute(request);
+    return this.createBookUseCase.execute(bookRequest);
   }
 
   @Delete(`:id`)

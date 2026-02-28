@@ -8,5 +8,6 @@ export class Book {
     public publishedYear?: number,
     public coverImageFileName?: string,
     public summary?: string,
+    public uploadedByUserId?: string,
   ) {}
 }

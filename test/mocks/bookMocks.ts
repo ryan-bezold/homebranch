@@ -9,6 +9,7 @@ export const mockBook: Book = new Book(
   2001,
   'test-cover.jpg',
   'A test book summary.',
+  'user-123',
 );
 
 export const mockBookFavorite: Book = new Book(

@@ -18,6 +18,7 @@ export const mockBookEntity: BookEntity = {
   isFavorite: mockBook.isFavorite,
   publishedYear: mockBook.publishedYear,
   coverImageFileName: mockBook.coverImageFileName,
+  uploadedByUserId: mockBook.uploadedByUserId,
 };
 
 export const mockBookShelfEntity: BookShelfEntity = {

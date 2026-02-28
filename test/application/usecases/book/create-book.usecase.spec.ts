@@ -47,6 +47,7 @@ describe('CreateBookUseCase', () => {
       isFavorite: false,
       publishedYear: '2001',
       coverImageFileName: 'test-cover.jpg',
+      uploadedByUserId: 'user-123',
     });
 
     expect(result.isSuccess()).toBe(true);
@@ -68,6 +69,7 @@ describe('CreateBookUseCase', () => {
       title: 'Test Book',
       author: 'Test Author',
       fileName: 'test-book.epub',
+      uploadedByUserId: 'user-123',
     });
 
     expect(result.isSuccess()).toBe(true);
@@ -88,6 +90,7 @@ describe('CreateBookUseCase', () => {
       author: 'Test Author',
       fileName: 'test-book.epub',
       publishedYear: 'not-a-number',
+      uploadedByUserId: 'user-123',
     });
 
     expect(result.isSuccess()).toBe(true);
@@ -105,6 +108,7 @@ describe('CreateBookUseCase', () => {
       author: 'Test Author',
       fileName: 'test-book.epub',
       publishedYear: '2015',
+      uploadedByUserId: 'user-123',
     });
 
     expect(result.isSuccess()).toBe(true);
@@ -122,6 +126,7 @@ describe('CreateBookUseCase', () => {
       author: 'Test Author',
       fileName: 'test-book.epub',
       isFavorite: true,
+      uploadedByUserId: 'user-123',
     });
 
     expect(result.isSuccess()).toBe(true);
@@ -140,6 +145,7 @@ describe('CreateBookUseCase', () => {
       title: 'Test Book',
       author: 'Test Author',
       fileName: 'test-book.epub',
+      uploadedByUserId: 'user-123',
     });
 
     expect(result.isSuccess()).toBe(true);
@@ -160,6 +166,7 @@ describe('CreateBookUseCase', () => {
       title: 'Test Book',
       author: 'Test Author',
       fileName: 'test-book.epub',
+      uploadedByUserId: 'user-123',
     });
 
     expect(result.isSuccess()).toBe(true);
@@ -177,6 +184,7 @@ describe('CreateBookUseCase', () => {
       title: 'Test Book',
       author: 'Test Author',
       fileName: 'test-book.epub',
+      uploadedByUserId: 'user-123',
     });
 
     expect(result.isFailure()).toBe(true);

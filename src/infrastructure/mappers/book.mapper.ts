@@ -13,6 +13,7 @@ export class BookMapper {
       bookEntity.publishedYear,
       bookEntity.coverImageFileName,
       bookEntity.summary,
+      bookEntity.uploadedByUserId,
     );
   }
 
@@ -26,6 +27,7 @@ export class BookMapper {
       publishedYear: book.publishedYear,
       coverImageFileName: book.coverImageFileName,
       summary: book.summary,
+      uploadedByUserId: book.uploadedByUserId,
     };
   }
 

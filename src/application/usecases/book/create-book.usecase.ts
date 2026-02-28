@@ -25,6 +25,8 @@ export class CreateBookUseCase implements UseCase<CreateBookRequest, Book> {
       dto.isFavorite ?? false,
       dto.publishedYear ? this._parseYear(dto.publishedYear) : undefined,
       dto.coverImageFileName,
+      undefined,
+      dto.uploadedByUserId,
     );
 
     book.summary = await this.openLibraryGateway.findBookSummary(
