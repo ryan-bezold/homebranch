@@ -35,6 +35,7 @@ import { DownloadBookUseCase } from 'src/application/usecases/book/download-book
 import { createReadStream, existsSync } from 'fs';
 import { basename } from 'path';
 import { Response } from 'express';
+import { FetchBookSummaryUseCase } from 'src/application/usecases/book/fetch-book-summary.usecase';
 
 @Controller('books')
 @UseInterceptors(MapResultInterceptor)
@@ -47,6 +48,7 @@ export class BookController {
     private readonly deleteBookUseCase: DeleteBookUseCase,
     private readonly updateBookUseCase: UpdateBookUseCase,
     private readonly downloadBookUseCase: DownloadBookUseCase,
+    private readonly fetchBookSummaryUseCase: FetchBookSummaryUseCase,
   ) {}
 
   private readonly logger = new Logger('BookController');
@@ -163,6 +165,12 @@ export class BookController {
       ...updateBookDto,
     };
     return this.updateBookUseCase.execute(updateBookRequest);
+  }
+
+  @Post(':id/fetch-summary')
+  @UseGuards(JwtAuthGuard)
+  fetchBookSummary(@Param('id') id: string) {
+    return this.fetchBookSummaryUseCase.execute({ id });
   }
 
   @Get(':id/download')

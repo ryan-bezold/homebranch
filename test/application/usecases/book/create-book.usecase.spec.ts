@@ -4,11 +4,13 @@ import { CreateBookUseCase } from 'src/application/usecases/book/create-book.use
 import { mock } from 'jest-mock-extended';
 import { mockBook } from 'test/mocks/bookMocks';
 import { Result, UnexpectedFailure } from 'src/core/result';
+import { OpenLibraryGateway } from 'src/infrastructure/gateways/open-library.gateway';
 import Mocked = jest.Mocked;
 
 describe('CreateBookUseCase', () => {
   let useCase: CreateBookUseCase;
   let bookRepository: Mocked<IBookRepository>;
+  let openLibraryGateway: Mocked<OpenLibraryGateway>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,11 +20,16 @@ describe('CreateBookUseCase', () => {
           provide: 'BookRepository',
           useValue: mock<IBookRepository>(),
         },
+        {
+          provide: OpenLibraryGateway,
+          useValue: mock<OpenLibraryGateway>(),
+        },
       ],
     }).compile();
 
     useCase = module.get<CreateBookUseCase>(CreateBookUseCase);
     bookRepository = module.get('BookRepository');
+    openLibraryGateway = module.get(OpenLibraryGateway);
   });
 
   afterEach(() => {
@@ -30,6 +37,7 @@ describe('CreateBookUseCase', () => {
   });
 
   test('Successfully creates a book', async () => {
+    openLibraryGateway.findBookSummary.mockResolvedValueOnce(null);
     bookRepository.create.mockResolvedValueOnce(Result.ok(mockBook));
 
     const result = await useCase.execute({
@@ -53,6 +61,7 @@ describe('CreateBookUseCase', () => {
   });
 
   test('Successfully creates a book with minimal fields', async () => {
+    openLibraryGateway.findBookSummary.mockResolvedValueOnce(null);
     bookRepository.create.mockResolvedValueOnce(Result.ok(mockBook));
 
     const result = await useCase.execute({
@@ -71,6 +80,7 @@ describe('CreateBookUseCase', () => {
   });
 
   test('Ignores invalid published year', async () => {
+    openLibraryGateway.findBookSummary.mockResolvedValueOnce(null);
     bookRepository.create.mockResolvedValueOnce(Result.ok(mockBook));
 
     const result = await useCase.execute({
@@ -87,6 +97,7 @@ describe('CreateBookUseCase', () => {
   });
 
   test('Successfully parses valid published year', async () => {
+    openLibraryGateway.findBookSummary.mockResolvedValueOnce(null);
     bookRepository.create.mockResolvedValueOnce(Result.ok(mockBook));
 
     const result = await useCase.execute({
@@ -103,6 +114,7 @@ describe('CreateBookUseCase', () => {
   });
 
   test('Successfully handles isFavorite flag', async () => {
+    openLibraryGateway.findBookSummary.mockResolvedValueOnce(null);
     bookRepository.create.mockResolvedValueOnce(Result.ok(mockBook));
 
     const result = await useCase.execute({
@@ -118,23 +130,30 @@ describe('CreateBookUseCase', () => {
     expect(calledWith.isFavorite).toBe(true);
   });
 
-  test('Successfully creates a book with a summary', async () => {
+  test('Sets summary from Open Library when available', async () => {
+    openLibraryGateway.findBookSummary.mockResolvedValueOnce(
+      'A summary from Open Library.',
+    );
     bookRepository.create.mockResolvedValueOnce(Result.ok(mockBook));
 
     const result = await useCase.execute({
       title: 'Test Book',
       author: 'Test Author',
       fileName: 'test-book.epub',
-      summary: 'A test book summary.',
     });
 
     expect(result.isSuccess()).toBe(true);
+    expect(openLibraryGateway.findBookSummary).toHaveBeenCalledWith(
+      'Test Book',
+      'Test Author',
+    );
 
     const calledWith = bookRepository.create.mock.calls[0][0];
-    expect(calledWith.summary).toBe('A test book summary.');
+    expect(calledWith.summary).toBe('A summary from Open Library.');
   });
 
-  test('Successfully creates a book without a summary', async () => {
+  test('Creates book without summary when Open Library returns null', async () => {
+    openLibraryGateway.findBookSummary.mockResolvedValueOnce(null);
     bookRepository.create.mockResolvedValueOnce(Result.ok(mockBook));
 
     const result = await useCase.execute({
@@ -150,6 +169,7 @@ describe('CreateBookUseCase', () => {
   });
 
   test('Fails when repository create fails', async () => {
+    openLibraryGateway.findBookSummary.mockResolvedValueOnce(null);
     const error = new UnexpectedFailure('Database error');
     bookRepository.create.mockResolvedValueOnce(Result.fail(error));
 

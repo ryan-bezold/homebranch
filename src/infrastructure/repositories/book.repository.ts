@@ -24,6 +24,7 @@ export class TypeOrmBookRepository implements IBookRepository {
 
   async findAll(limit?: number, offset?: number): Promise<Result<PaginationResult<Book[]>>> {
     const [bookEntities, total] = await this.repository.findAndCount({
+      order: { author: 'ASC', title: 'ASC' },
       take: limit,
       skip: offset,
     });
@@ -53,6 +54,8 @@ export class TypeOrmBookRepository implements IBookRepository {
       .innerJoin('book.bookShelves', 'shelf', 'shelf.id = :shelfId', {
         shelfId: bookShelf.id,
       })
+      .orderBy('book.author', 'ASC')
+      .addOrderBy('book.title', 'ASC')
       .take(limit)
       .skip(offset)
       .getManyAndCount();
@@ -102,6 +105,7 @@ export class TypeOrmBookRepository implements IBookRepository {
   async findByAuthor(author: string, limit?: number, offset?: number): Promise<Result<PaginationResult<Book[]>>> {
     const [bookEntities, total] = await this.repository.findAndCount({
       where: { author },
+      order: { title: 'ASC' },
       take: limit,
       skip: offset,
     });
@@ -117,6 +121,7 @@ export class TypeOrmBookRepository implements IBookRepository {
   async findFavorites(limit?: number, offset?: number): Promise<Result<PaginationResult<Book[]>>> {
     const [bookEntities, total] = await this.repository.findAndCount({
       where: { isFavorite: true },
+      order: { author: 'ASC', title: 'ASC' },
       take: limit,
       skip: offset,
     });
@@ -139,6 +144,8 @@ export class TypeOrmBookRepository implements IBookRepository {
     const [bookEntities, total] = await this.repository
       .createQueryBuilder('book')
       .where('LOWER(book.title) LIKE LOWER(:title)', { title: `%${title}%` })
+      .orderBy('book.author', 'ASC')
+      .addOrderBy('book.title', 'ASC')
       .limit(limit)
       .skip(offset)
       .getManyAndCount();
@@ -161,6 +168,8 @@ export class TypeOrmBookRepository implements IBookRepository {
       .createQueryBuilder('book')
       .where('LOWER(book.title) LIKE LOWER(:title)', { title: `%${title}%` })
       .andWhere('book.isFavorite = true')
+      .orderBy('book.author', 'ASC')
+      .addOrderBy('book.title', 'ASC')
       .limit(limit)
       .skip(offset)
       .getManyAndCount();
@@ -184,6 +193,7 @@ export class TypeOrmBookRepository implements IBookRepository {
       .createQueryBuilder('book')
       .where('book.author = :author', { author })
       .andWhere('LOWER(book.title) LIKE LOWER(:title)', { title: `%${title}%` })
+      .orderBy('book.title', 'ASC')
       .limit(limit)
       .skip(offset)
       .getManyAndCount();

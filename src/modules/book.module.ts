@@ -13,6 +13,8 @@ import { TypeOrmBookRepository } from 'src/infrastructure/repositories/book.repo
 import { BookController } from 'src/presentation/controllers/book.controller';
 import { AuthModule } from 'src/modules/auth.module';
 import { UsersModule } from 'src/modules/user.module';
+import { OpenLibraryGateway } from 'src/infrastructure/gateways/open-library.gateway';
+import { FetchBookSummaryUseCase } from 'src/application/usecases/book/fetch-book-summary.usecase';
 
 @Module({
   imports: [
@@ -35,10 +37,14 @@ import { UsersModule } from 'src/modules/user.module';
     GetFavoriteBooksUseCase,
     GetBookByIdUseCase,
     UpdateBookUseCase,
+    FetchBookSummaryUseCase,
     // ... other use cases
 
     // Mappers
     BookMapper,
+
+    // Gateways
+    OpenLibraryGateway,
   ],
   controllers: [BookController],
   exports: ['BookRepository'],
