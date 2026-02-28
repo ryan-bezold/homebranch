@@ -8,9 +8,7 @@ import { BookShelf } from 'src/domain/entities/bookshelf.entity';
 import { BookShelfFactory } from 'src/domain/entities/bookshelf.factory';
 
 @Injectable()
-export class CreateBookShelfUseCase
-  implements UseCase<CreateBookShelfRequest, BookShelf>
-{
+export class CreateBookShelfUseCase implements UseCase<CreateBookShelfRequest, BookShelf> {
   constructor(
     @Inject('BookShelfRepository')
     private bookShelfRepository: IBookShelfRepository,

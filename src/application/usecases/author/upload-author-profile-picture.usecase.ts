@@ -6,29 +6,17 @@ import { Result } from 'src/core/result';
 import { UseCase } from 'src/core/usecase';
 
 @Injectable()
-export class UploadAuthorProfilePictureUseCase
-  implements UseCase<UploadAuthorProfilePictureRequest, Author>
-{
-  constructor(
-    @Inject('AuthorRepository') private authorRepository: IAuthorRepository,
-  ) {}
+export class UploadAuthorProfilePictureUseCase implements UseCase<UploadAuthorProfilePictureRequest, Author> {
+  constructor(@Inject('AuthorRepository') private authorRepository: IAuthorRepository) {}
 
-  async execute({
-    name,
-    profilePictureUrl,
-  }: UploadAuthorProfilePictureRequest): Promise<Result<Author>> {
+  async execute({ name, profilePictureUrl }: UploadAuthorProfilePictureRequest): Promise<Result<Author>> {
     const existingResult = await this.authorRepository.findByName(name);
     if (existingResult.isFailure()) {
       return existingResult;
     }
 
     const existing = existingResult.value!;
-    const updated = new Author(
-      existing.id,
-      existing.name,
-      existing.biography,
-      profilePictureUrl,
-    );
+    const updated = new Author(existing.id, existing.name, existing.biography, profilePictureUrl);
 
     return await this.authorRepository.updateByName(name, updated);
   }

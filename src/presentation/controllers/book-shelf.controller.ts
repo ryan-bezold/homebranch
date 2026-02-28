@@ -91,10 +91,7 @@ export class BookShelfController {
 
   @Put(`:id`)
   @UseGuards(JwtAuthGuard)
-  updateBookShelf(
-    @Param('id') id: string,
-    @Body() updateBookShelfDto: UpdateBookShelfDto,
-  ) {
+  updateBookShelf(@Param('id') id: string, @Body() updateBookShelfDto: UpdateBookShelfDto) {
     const updateBookShelfRequest: UpdateBookShelfRequest = {
       id,
       ...updateBookShelfDto,
@@ -104,10 +101,7 @@ export class BookShelfController {
 
   @Put(`:id/add-book`)
   @UseGuards(JwtAuthGuard)
-  addBookToBookShelf(
-    @Param('id') id: string,
-    @Body() addBookToBookShelfDto: AddBookToBookShelfDto,
-  ) {
+  addBookToBookShelf(@Param('id') id: string, @Body() addBookToBookShelfDto: AddBookToBookShelfDto) {
     return this.addBookToBookShelfUseCase.execute({
       bookShelfId: id,
       bookId: addBookToBookShelfDto.bookId,
@@ -116,10 +110,7 @@ export class BookShelfController {
 
   @Put(`:id/remove-book`)
   @UseGuards(JwtAuthGuard)
-  removeBookFromBookShelf(
-    @Param('id') id: string,
-    @Body() removeBookFromBookShelfDto: RemoveBookFromBookShelfDto,
-  ) {
+  removeBookFromBookShelf(@Param('id') id: string, @Body() removeBookFromBookShelfDto: RemoveBookFromBookShelfDto) {
     return this.removeBookFromBookShelfUseCase.execute({
       bookShelfId: id,
       bookId: removeBookFromBookShelfDto.bookId,

@@ -9,12 +9,8 @@ export interface DownloadBookRequest {
 }
 
 @Injectable()
-export class DownloadBookUseCase
-  implements UseCase<DownloadBookRequest, Book>
-{
-  constructor(
-    @Inject('BookRepository') private bookRepository: IBookRepository,
-  ) {}
+export class DownloadBookUseCase implements UseCase<DownloadBookRequest, Book> {
+  constructor(@Inject('BookRepository') private bookRepository: IBookRepository) {}
 
   async execute({ id }: DownloadBookRequest): Promise<Result<Book>> {
     return await this.bookRepository.findById(id);

@@ -7,16 +7,10 @@ import { UseCase } from 'src/core/usecase';
 import { PaginatedQuery } from 'src/core/paginated-query';
 
 @Injectable()
-export class GetBookByIdUseCase
-  implements UseCase<GetBookByIdRequest & PaginatedQuery, Book>
-{
-  constructor(
-    @Inject('BookRepository') private bookRepository: IBookRepository,
-  ) {}
+export class GetBookByIdUseCase implements UseCase<GetBookByIdRequest & PaginatedQuery, Book> {
+  constructor(@Inject('BookRepository') private bookRepository: IBookRepository) {}
 
-  async execute({
-    id,
-  }: GetBookByIdRequest & PaginatedQuery): Promise<Result<Book>> {
+  async execute({ id }: GetBookByIdRequest & PaginatedQuery): Promise<Result<Book>> {
     return await this.bookRepository.findById(id);
   }
 }

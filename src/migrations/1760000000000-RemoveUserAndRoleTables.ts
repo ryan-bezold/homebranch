@@ -5,9 +5,7 @@ export class RemoveUserAndRoleTables1760000000000 implements MigrationInterface 
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     // Drop FK from saved_position_entity to user_entity
-    await queryRunner.query(
-      `ALTER TABLE "saved_position_entity" DROP CONSTRAINT IF EXISTS "FK_saved_position_user"`,
-    );
+    await queryRunner.query(`ALTER TABLE "saved_position_entity" DROP CONSTRAINT IF EXISTS "FK_saved_position_user"`);
 
     // Drop user_entity and role_entity tables
     await queryRunner.query(`DROP TABLE IF EXISTS "user_entity"`);

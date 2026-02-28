@@ -1,15 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  Param,
-  Put,
-  Req,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Put, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/infrastructure/guards/jwt-auth.guard';
 import { MapResultInterceptor } from '../interceptors/map_result.interceptor';
 import { GetSavedPositionsUseCase } from 'src/application/usecases/saved-position/get-saved-positions.usecase';
@@ -43,11 +32,7 @@ export class SavedPositionController {
   }
 
   @Put(':bookId')
-  savePosition(
-    @Req() req: Request,
-    @Param('bookId') bookId: string,
-    @Body() dto: SavePositionDto,
-  ) {
+  savePosition(@Req() req: Request, @Param('bookId') bookId: string, @Body() dto: SavePositionDto) {
     const userId = req['user'].id;
     return this.savePositionUseCase.execute({
       bookId,

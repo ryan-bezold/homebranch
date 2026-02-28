@@ -16,9 +16,7 @@ export class AddUserAndRoleTables1739836800000 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "user_entity" DROP CONSTRAINT "FK_user_entity_role"`,
-    );
+    await queryRunner.query(`ALTER TABLE "user_entity" DROP CONSTRAINT "FK_user_entity_role"`);
     await queryRunner.query(`DROP TABLE "user_entity"`);
     await queryRunner.query(`DROP TABLE "role_entity"`);
   }

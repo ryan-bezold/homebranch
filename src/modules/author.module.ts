@@ -15,11 +15,7 @@ import { AuthModule } from 'src/modules/auth.module';
 import { BooksModule } from 'src/modules/book.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([AuthorEntity, BookEntity]),
-    AuthModule,
-    forwardRef(() => BooksModule),
-  ],
+  imports: [TypeOrmModule.forFeature([AuthorEntity, BookEntity]), AuthModule, forwardRef(() => BooksModule)],
   providers: [
     {
       provide: 'AuthorRepository',

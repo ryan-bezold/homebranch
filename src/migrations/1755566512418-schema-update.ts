@@ -22,12 +22,8 @@ export class SchemaUpdate1755566512418 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "book_shelf_books" DROP CONSTRAINT "FK_book_shelf_books_book"`,
-    );
-    await queryRunner.query(
-      `ALTER TABLE "book_shelf_books" DROP CONSTRAINT "FK_book_shelf_books_shelf"`,
-    );
+    await queryRunner.query(`ALTER TABLE "book_shelf_books" DROP CONSTRAINT "FK_book_shelf_books_book"`);
+    await queryRunner.query(`ALTER TABLE "book_shelf_books" DROP CONSTRAINT "FK_book_shelf_books_shelf"`);
     await queryRunner.query(`DROP TABLE "book_shelf_books"`);
     await queryRunner.query(`DROP TABLE "book_entity"`);
     await queryRunner.query(`DROP TABLE "book_shelf_entity"`);

@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import {
-  TokenExpiredError,
-  InvalidTokenError,
-} from 'src/domain/exceptions/auth.exceptions';
+import { TokenExpiredError, InvalidTokenError } from 'src/domain/exceptions/auth.exceptions';
 import { ITokenGateway } from 'src/application/interfaces/jwt-token.gateway';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from 'src/domain/value-objects/token-payload.value-object';
@@ -17,12 +14,9 @@ export class JwtTokenGateway implements ITokenGateway {
 
   async verifyAccessToken(token: string): Promise<JwtPayload> {
     try {
-      const payload: Record<string, any> = await this.jwtService.verifyAsync(
-        token,
-        {
-          secret: this.configService.get('JWT_ACCESS_SECRET'),
-        },
-      );
+      const payload: Record<string, any> = await this.jwtService.verifyAsync(token, {
+        secret: this.configService.get('JWT_ACCESS_SECRET'),
+      });
 
       return JwtPayload.fromPlainObject(payload);
     } catch (error) {

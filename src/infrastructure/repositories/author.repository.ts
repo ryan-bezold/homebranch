@@ -10,14 +10,6 @@ import { AuthorNotFoundFailure } from 'src/domain/failures/author.failures';
 import { Result } from 'src/core/result';
 import { PaginationResult } from 'src/core/pagination_result';
 
-interface AuthorWithBookCount {
-  id: string;
-  name: string;
-  biography: string | null;
-  profilePictureUrl: string | null;
-  bookCount: string;
-}
-
 @Injectable()
 export class TypeOrmAuthorRepository implements IAuthorRepository {
   constructor(
@@ -40,11 +32,7 @@ export class TypeOrmAuthorRepository implements IAuthorRepository {
       .addSelect('author.id', 'id')
       .addSelect('author.biography', 'biography')
       .addSelect('author.profile_picture_url', 'profilePictureUrl')
-      .leftJoin(
-        AuthorEntity,
-        'author',
-        'LOWER(author.name) = LOWER(book.author)',
-      )
+      .leftJoin(AuthorEntity, 'author', 'LOWER(author.name) = LOWER(book.author)')
       .groupBy('book.author')
       .addGroupBy('author.id')
       .addGroupBy('author.biography')
@@ -89,15 +77,10 @@ export class TypeOrmAuthorRepository implements IAuthorRepository {
       queryBuilder.offset(offset);
     }
 
-    const rows = (await queryBuilder.getRawMany()) as AuthorWithBookCount[];
+    const rows = await queryBuilder.getRawMany();
 
     const authors = rows.map((row) => {
-      const author = new Author(
-        row.id ?? null,
-        row.name,
-        row.biography ?? null,
-        row.profilePictureUrl ?? null,
-      );
+      const author = new Author(row.id ?? null, row.name, row.biography ?? null, row.profilePictureUrl ?? null);
       author.bookCount = parseInt(row.bookCount, 10);
       return author;
     });
@@ -107,8 +90,7 @@ export class TypeOrmAuthorRepository implements IAuthorRepository {
       limit,
       offset,
       total,
-      nextCursor:
-        limit && total > (offset ?? 0) + limit ? (offset ?? 0) + limit : null,
+      nextCursor: limit && total > (offset ?? 0) + limit ? (offset ?? 0) + limit : null,
     });
   }
 

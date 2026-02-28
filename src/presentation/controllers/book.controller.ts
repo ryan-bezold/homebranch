@@ -89,23 +89,13 @@ export class BookController {
           ) => {
             switch (file.fieldname) {
               case 'file':
-                cb(
-                  null,
-                  `${process.env.UPLOADS_DIRECTORY || join(process.cwd(), 'uploads')}/books`,
-                );
+                cb(null, `${process.env.UPLOADS_DIRECTORY || join(process.cwd(), 'uploads')}/books`);
                 break;
               case 'coverImage':
-                cb(
-                  null,
-                  `${process.env.UPLOADS_DIRECTORY || join(process.cwd(), 'uploads')}/cover-images`,
-                );
+                cb(null, `${process.env.UPLOADS_DIRECTORY || join(process.cwd(), 'uploads')}/cover-images`);
                 break;
               default:
-                cb(
-                  new Error('Invalid field name'),
-                  process.env.UPLOADS_DIRECTORY ||
-                    join(process.cwd(), 'uploads'),
-                );
+                cb(new Error('Invalid field name'), process.env.UPLOADS_DIRECTORY || join(process.cwd(), 'uploads'));
                 break;
             }
           },
@@ -156,6 +146,7 @@ export class BookController {
     const deleteBookRequest: DeleteBookRequest = {
       id,
       requestingUserId: request['user'].id,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       requestingUserRole: request['user'].roles?.includes('ADMIN') ? 'ADMIN' : 'USER',
     };
     return this.deleteBookUseCase.execute(deleteBookRequest);
@@ -187,15 +178,12 @@ export class BookController {
     const result = await this.downloadBookUseCase.execute({ id });
 
     if (result.isFailure()) {
-      response
-        .status(404)
-        .json({ success: false, error: result.failure!.code, message: result.failure!.message });
+      response.status(404).json({ success: false, error: result.failure.code, message: result.failure.message });
       return;
     }
 
     const book = result.value!;
-    const sanitizedTitle =
-      book.title.replace(/[^\w\s\-]/g, '').trim() || 'book';
+    const sanitizedTitle = book.title.replace(/[^\w\s-]/g, '').trim() || 'book';
     const uploadsDirectory = process.env.UPLOADS_DIRECTORY || './uploads';
     const safeFileName = basename(book.fileName);
     const filePath = join(uploadsDirectory, 'books', safeFileName);

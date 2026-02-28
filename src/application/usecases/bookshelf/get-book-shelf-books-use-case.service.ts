@@ -8,9 +8,7 @@ import { GetBookShelfBooksRequest } from '../../contracts/bookshelf/get-book-she
 import { IBookRepository } from '../../interfaces/book-repository';
 
 @Injectable()
-export class GetBookShelfBooksUseCase
-  implements UseCase<GetBookShelfBooksRequest, PaginationResult<Book[]>>
-{
+export class GetBookShelfBooksUseCase implements UseCase<GetBookShelfBooksRequest, PaginationResult<Book[]>> {
   constructor(
     @Inject('BookShelfRepository')
     private bookShelfRepository: IBookShelfRepository,
@@ -19,17 +17,13 @@ export class GetBookShelfBooksUseCase
     private bookRepository: IBookRepository,
   ) {}
 
-  async execute({
-    id,
-  }: GetBookShelfBooksRequest): Promise<Result<PaginationResult<Book[]>>> {
+  async execute({ id }: GetBookShelfBooksRequest): Promise<Result<PaginationResult<Book[]>>> {
     const findBookShelfResult = await this.bookShelfRepository.findById(id);
 
     if (!findBookShelfResult.isSuccess()) {
       return Result.fail(findBookShelfResult.failure!);
     }
 
-    return await this.bookRepository.findByBookShelfId(
-      findBookShelfResult.value,
-    );
+    return await this.bookRepository.findByBookShelfId(findBookShelfResult.value);
   }
 }

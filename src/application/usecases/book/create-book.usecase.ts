@@ -29,10 +29,7 @@ export class CreateBookUseCase implements UseCase<CreateBookRequest, Book> {
       dto.uploadedByUserId,
     );
 
-    book.summary = await this.openLibraryGateway.findBookSummary(
-      dto.title,
-      dto.author,
-    ) ?? undefined;
+    book.summary = (await this.openLibraryGateway.findBookSummary(dto.title, dto.author)) ?? undefined;
 
     return await this.bookRepository.create(book);
   }

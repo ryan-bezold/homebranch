@@ -136,9 +136,7 @@ describe('CreateBookUseCase', () => {
   });
 
   test('Sets summary from Open Library when available', async () => {
-    openLibraryGateway.findBookSummary.mockResolvedValueOnce(
-      'A summary from Open Library.',
-    );
+    openLibraryGateway.findBookSummary.mockResolvedValueOnce('A summary from Open Library.');
     bookRepository.create.mockResolvedValueOnce(Result.ok(mockBook));
 
     const result = await useCase.execute({
@@ -149,10 +147,7 @@ describe('CreateBookUseCase', () => {
     });
 
     expect(result.isSuccess()).toBe(true);
-    expect(openLibraryGateway.findBookSummary).toHaveBeenCalledWith(
-      'Test Book',
-      'Test Author',
-    );
+    expect(openLibraryGateway.findBookSummary).toHaveBeenCalledWith('Test Book', 'Test Author');
 
     const calledWith = bookRepository.create.mock.calls[0][0];
     expect(calledWith.summary).toBe('A summary from Open Library.');

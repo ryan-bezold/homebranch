@@ -15,9 +15,7 @@ describe('AuthorFactory', () => {
       expect(author.id).toBe('author-uuid-1');
       expect(author.name).toBe('Jane Austen');
       expect(author.biography).toBe('An English novelist.');
-      expect(author.profilePictureUrl).toBe(
-        'https://covers.openlibrary.org/a/olid/OL21594A-L.jpg',
-      );
+      expect(author.profilePictureUrl).toBe('https://covers.openlibrary.org/a/olid/OL21594A-L.jpg');
     });
 
     test('Successfully creates an author with only required fields', () => {
@@ -38,9 +36,7 @@ describe('AuthorFactory', () => {
     });
 
     test('Throws error when name is empty', () => {
-      expect(() => AuthorFactory.create('author-uuid-3', '')).toThrow(
-        'Name is required to create an author.',
-      );
+      expect(() => AuthorFactory.create('author-uuid-3', '')).toThrow('Name is required to create an author.');
     });
   });
 });

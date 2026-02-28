@@ -11,10 +11,7 @@ import { SavedPositionController } from 'src/presentation/controllers/saved-posi
 import { AuthModule } from 'src/modules/auth.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([SavedPositionEntity]),
-    AuthModule,
-  ],
+  imports: [TypeOrmModule.forFeature([SavedPositionEntity]), AuthModule],
   providers: [
     {
       provide: 'SavedPositionRepository',

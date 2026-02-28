@@ -8,12 +8,7 @@ export const mockAuthor: Author = new Author(
   'https://covers.openlibrary.org/a/olid/OL21594A-L.jpg',
 );
 
-export const mockAuthorWithoutEnrichment: Author = new Author(
-  'author-uuid-2',
-  'Charles Dickens',
-  null,
-  null,
-);
+export const mockAuthorWithoutEnrichment: Author = new Author('author-uuid-2', 'Charles Dickens', null, null);
 
 export const mockAuthorEntity: AuthorEntity = {
   id: mockAuthor.id!,

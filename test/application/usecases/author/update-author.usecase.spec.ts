@@ -66,9 +66,7 @@ describe('UpdateAuthorUseCase', () => {
   });
 
   test('Fails when author is not found', async () => {
-    authorRepository.findByName.mockResolvedValueOnce(
-      Result.fail(new AuthorNotFoundFailure()),
-    );
+    authorRepository.findByName.mockResolvedValueOnce(Result.fail(new AuthorNotFoundFailure()));
 
     const result = await useCase.execute({
       name: 'Unknown Author',

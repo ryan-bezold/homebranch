@@ -11,9 +11,7 @@ export class SavedPositionFactory {
     updatedAt?: Date,
   ): SavedPosition {
     if (!bookId || !userId) {
-      throw new Error(
-        'Book ID and User ID are required to create a saved position.',
-      );
+      throw new Error('Book ID and User ID are required to create a saved position.');
     }
 
     const now = new Date();

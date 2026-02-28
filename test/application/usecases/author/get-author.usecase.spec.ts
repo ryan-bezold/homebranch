@@ -50,9 +50,7 @@ describe('GetAuthorUseCase', () => {
   });
 
   test('Creates a new author with Open Library enrichment when not found', async () => {
-    authorRepository.findByName.mockResolvedValueOnce(
-      Result.fail(new AuthorNotFoundFailure()),
-    );
+    authorRepository.findByName.mockResolvedValueOnce(Result.fail(new AuthorNotFoundFailure()));
     openLibraryGateway.findAuthorEnrichment.mockResolvedValueOnce({
       biography: 'An English novelist.',
       photoUrl: 'https://covers.openlibrary.org/a/olid/OL21594A-L.jpg',
@@ -67,23 +65,17 @@ describe('GetAuthorUseCase', () => {
     const createdAuthor = authorRepository.create.mock.calls[0][0];
     expect(createdAuthor.name).toBe('Jane Austen');
     expect(createdAuthor.biography).toBe('An English novelist.');
-    expect(createdAuthor.profilePictureUrl).toBe(
-      'https://covers.openlibrary.org/a/olid/OL21594A-L.jpg',
-    );
+    expect(createdAuthor.profilePictureUrl).toBe('https://covers.openlibrary.org/a/olid/OL21594A-L.jpg');
     expect(result.isSuccess()).toBe(true);
   });
 
   test('Creates a new author without enrichment when Open Library returns nothing', async () => {
-    authorRepository.findByName.mockResolvedValueOnce(
-      Result.fail(new AuthorNotFoundFailure()),
-    );
+    authorRepository.findByName.mockResolvedValueOnce(Result.fail(new AuthorNotFoundFailure()));
     openLibraryGateway.findAuthorEnrichment.mockResolvedValueOnce({
       biography: null,
       photoUrl: null,
     });
-    authorRepository.create.mockResolvedValueOnce(
-      Result.ok(mockAuthorWithoutEnrichment),
-    );
+    authorRepository.create.mockResolvedValueOnce(Result.ok(mockAuthorWithoutEnrichment));
 
     const result = await useCase.execute({ name: 'Charles Dickens' });
 

@@ -7,19 +7,10 @@ import { UseCase } from 'src/core/usecase';
 import { GetAuthorsRequest } from 'src/application/contracts/author/get-authors-request';
 
 @Injectable()
-export class GetAuthorsUseCase
-  implements UseCase<GetAuthorsRequest, PaginationResult<Author[]>>
-{
-  constructor(
-    @Inject('AuthorRepository') private authorRepository: IAuthorRepository,
-  ) {}
+export class GetAuthorsUseCase implements UseCase<GetAuthorsRequest, PaginationResult<Author[]>> {
+  constructor(@Inject('AuthorRepository') private authorRepository: IAuthorRepository) {}
 
-  async execute({
-    query,
-    limit,
-    offset,
-    userId,
-  }: GetAuthorsRequest): Promise<Result<PaginationResult<Author[]>>> {
+  async execute({ query, limit, offset, userId }: GetAuthorsRequest): Promise<Result<PaginationResult<Author[]>>> {
     return await this.authorRepository.findAll(query, limit, offset, userId);
   }
 }

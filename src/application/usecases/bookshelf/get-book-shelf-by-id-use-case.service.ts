@@ -6,9 +6,7 @@ import { IBookShelfRepository } from '../../interfaces/bookshelf-repository';
 import { UseCase } from 'src/core/usecase';
 
 @Injectable()
-export class GetBookShelfByIdUseCase
-  implements UseCase<GetBookShelfByIdRequest, BookShelf>
-{
+export class GetBookShelfByIdUseCase implements UseCase<GetBookShelfByIdRequest, BookShelf> {
   constructor(
     @Inject('BookShelfRepository')
     private bookShelfRepository: IBookShelfRepository,

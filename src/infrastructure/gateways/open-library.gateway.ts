@@ -55,10 +55,7 @@ export class OpenLibraryGateway {
     return AbortSignal.timeout(this.timeoutMs);
   }
 
-  async findBookSummary(
-    title: string,
-    author: string,
-  ): Promise<string | null> {
+  async findBookSummary(title: string, author: string): Promise<string | null> {
     try {
       const searchUrl = `${this.baseUrl}/search.json?title=${encodeURIComponent(title)}&author=${encodeURIComponent(author)}&limit=1&fields=key`;
       const searchResponse = await fetch(searchUrl, {
@@ -70,8 +67,7 @@ export class OpenLibraryGateway {
         return null;
       }
 
-      const searchData =
-        (await searchResponse.json()) as BookSummarySearchResponse;
+      const searchData = (await searchResponse.json()) as BookSummarySearchResponse;
 
       if (!searchData.docs || searchData.docs.length === 0) {
         return null;
@@ -100,10 +96,7 @@ export class OpenLibraryGateway {
 
       return workData.description.value ?? null;
     } catch (error) {
-      const cause =
-        error instanceof TypeError && error.cause instanceof Error
-          ? ` (${error.cause.message})`
-          : '';
+      const cause = error instanceof TypeError && error.cause instanceof Error ? ` (${error.cause.message})` : '';
       this.logger.warn(
         `Failed to fetch book summary for "${title}" by "${author}" from Open Library: ${error instanceof Error ? error.message : String(error)}${cause}`,
       );
@@ -119,17 +112,12 @@ export class OpenLibraryGateway {
       }
 
       const olid = searchResult.key.replace('/authors/', '');
-      const biography = searchResult.hasBio
-        ? await this.fetchAuthorBiography(olid)
-        : null;
+      const biography = searchResult.hasBio ? await this.fetchAuthorBiography(olid) : null;
       const photoUrl = await this.fetchAuthorPhotoUrl(olid);
 
       return { biography, photoUrl };
     } catch (error) {
-      const cause =
-        error instanceof TypeError && error.cause instanceof Error
-          ? ` (${error.cause.message})`
-          : '';
+      const cause = error instanceof TypeError && error.cause instanceof Error ? ` (${error.cause.message})` : '';
       this.logger.warn(
         `Failed to enrich author "${name}" from Open Library: ${error instanceof Error ? error.message : String(error)}${cause}`,
       );
@@ -137,9 +125,7 @@ export class OpenLibraryGateway {
     }
   }
 
-  private async searchAuthorByName(
-    name: string,
-  ): Promise<AuthorSearchResult | null> {
+  private async searchAuthorByName(name: string): Promise<AuthorSearchResult | null> {
     const url = `${this.baseUrl}/search/authors.json?q=${encodeURIComponent(name)}`;
     const response = await fetch(url, {
       headers: { 'User-Agent': this.userAgent },
@@ -156,18 +142,13 @@ export class OpenLibraryGateway {
       return null;
     }
 
-    const exactMatch = data.docs.find(
-      (doc) => doc.name.toLowerCase() === name.toLowerCase(),
-    );
+    const exactMatch = data.docs.find((doc) => doc.name.toLowerCase() === name.toLowerCase());
     const match = exactMatch ?? data.docs[0];
 
-    const authorResponse = await fetch(
-      `${this.baseUrl}/authors/${match.key}.json`,
-      {
-        headers: { 'User-Agent': this.userAgent },
-        signal: this.createAbortSignal(),
-      },
-    );
+    const authorResponse = await fetch(`${this.baseUrl}/authors/${match.key}.json`, {
+      headers: { 'User-Agent': this.userAgent },
+      signal: this.createAbortSignal(),
+    });
 
     if (!authorResponse.ok) {
       return { key: match.key, hasBio: false };

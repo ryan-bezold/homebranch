@@ -1,13 +1,5 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Inject,
-  Injectable,
-} from '@nestjs/common';
-import {
-  InvalidTokenError,
-  TokenExpiredError,
-} from 'src/domain/exceptions/auth.exceptions';
+import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
+import { InvalidTokenError, TokenExpiredError } from 'src/domain/exceptions/auth.exceptions';
 import { Request } from 'express';
 import { ITokenGateway } from 'src/application/interfaces/jwt-token.gateway';
 

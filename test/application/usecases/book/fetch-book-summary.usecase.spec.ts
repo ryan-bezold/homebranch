@@ -39,20 +39,13 @@ describe('FetchBookSummaryUseCase', () => {
 
   test('Fetches and persists summary from Open Library', async () => {
     bookRepository.findById.mockResolvedValueOnce(Result.ok(mockBook));
-    openLibraryGateway.findBookSummary.mockResolvedValueOnce(
-      'A fetched summary.',
-    );
-    bookRepository.update.mockResolvedValueOnce(
-      Result.ok({ ...mockBook, summary: 'A fetched summary.' }),
-    );
+    openLibraryGateway.findBookSummary.mockResolvedValueOnce('A fetched summary.');
+    bookRepository.update.mockResolvedValueOnce(Result.ok({ ...mockBook, summary: 'A fetched summary.' }));
 
     const result = await useCase.execute({ id: mockBook.id });
 
     expect(result.isSuccess()).toBe(true);
-    expect(openLibraryGateway.findBookSummary).toHaveBeenCalledWith(
-      mockBook.title,
-      mockBook.author,
-    );
+    expect(openLibraryGateway.findBookSummary).toHaveBeenCalledWith(mockBook.title, mockBook.author);
     const updatedBook = bookRepository.update.mock.calls[0][1];
     expect(updatedBook.summary).toBe('A fetched summary.');
   });
@@ -68,9 +61,7 @@ describe('FetchBookSummaryUseCase', () => {
   });
 
   test('Returns failure when book is not found', async () => {
-    bookRepository.findById.mockResolvedValueOnce(
-      Result.fail(new BookNotFoundFailure()),
-    );
+    bookRepository.findById.mockResolvedValueOnce(Result.fail(new BookNotFoundFailure()));
 
     const result = await useCase.execute({ id: 'nonexistent-id' });
 
@@ -81,12 +72,8 @@ describe('FetchBookSummaryUseCase', () => {
 
   test('Returns failure when repository update fails', async () => {
     bookRepository.findById.mockResolvedValueOnce(Result.ok(mockBook));
-    openLibraryGateway.findBookSummary.mockResolvedValueOnce(
-      'A fetched summary.',
-    );
-    bookRepository.update.mockResolvedValueOnce(
-      Result.fail(new UnexpectedFailure('Database error')),
-    );
+    openLibraryGateway.findBookSummary.mockResolvedValueOnce('A fetched summary.');
+    bookRepository.update.mockResolvedValueOnce(Result.fail(new UnexpectedFailure('Database error')));
 
     const result = await useCase.execute({ id: mockBook.id });
 

@@ -50,18 +50,12 @@ export class AuthorController {
   }
 
   @Get(':name/books')
-  getBooksByAuthor(
-    @Param('name') name: string,
-    @Query() paginatedQuery: PaginatedQuery & { userId?: string },
-  ) {
+  getBooksByAuthor(@Param('name') name: string, @Query() paginatedQuery: PaginatedQuery & { userId?: string }) {
     return this.getBooksByAuthorUseCase.execute({ name, ...paginatedQuery });
   }
 
   @Patch(':name')
-  updateAuthor(
-    @Param('name') name: string,
-    @Body() updateAuthorDto: UpdateAuthorDto,
-  ) {
+  updateAuthor(@Param('name') name: string, @Body() updateAuthorDto: UpdateAuthorDto) {
     return this.updateAuthorUseCase.execute({ name, ...updateAuthorDto });
   }
 
@@ -74,10 +68,7 @@ export class AuthorController {
           _file: Express.Multer.File,
           cb: (error: Error | null, destination: string) => void,
         ) => {
-          cb(
-            null,
-            `${process.env.UPLOADS_DIRECTORY || join(process.cwd(), 'uploads')}/author-images`,
-          );
+          cb(null, `${process.env.UPLOADS_DIRECTORY || join(process.cwd(), 'uploads')}/author-images`);
         },
         filename: (
           _req: Express.Request,

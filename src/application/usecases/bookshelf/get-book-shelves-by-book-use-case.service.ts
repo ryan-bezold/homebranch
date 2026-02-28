@@ -9,17 +9,13 @@ interface GetBookShelvesByBookRequest {
 }
 
 @Injectable()
-export class GetBookShelvesByBookUseCase
-  implements UseCase<GetBookShelvesByBookRequest, BookShelf[]>
-{
+export class GetBookShelvesByBookUseCase implements UseCase<GetBookShelvesByBookRequest, BookShelf[]> {
   constructor(
     @Inject('BookShelfRepository')
     private bookShelfRepository: IBookShelfRepository,
   ) {}
 
-  async execute({
-    bookId,
-  }: GetBookShelvesByBookRequest): Promise<Result<BookShelf[]>> {
+  async execute({ bookId }: GetBookShelvesByBookRequest): Promise<Result<BookShelf[]>> {
     return await this.bookShelfRepository.findByBookId(bookId);
   }
 }

@@ -4,10 +4,7 @@ import { DeleteBookUseCase } from 'src/application/usecases/book/delete-book.use
 import { mock } from 'jest-mock-extended';
 import { mockBook, mockBookFavorite } from 'test/mocks/bookMocks';
 import { Result } from 'src/core/result';
-import {
-  BookNotFoundFailure,
-  DeleteBookForbiddenFailure,
-} from 'src/domain/failures/book.failures';
+import { BookNotFoundFailure, DeleteBookForbiddenFailure } from 'src/domain/failures/book.failures';
 import Mocked = jest.Mocked;
 
 describe('DeleteBookUseCase', () => {
@@ -98,9 +95,7 @@ describe('DeleteBookUseCase', () => {
   });
 
   test('Fails when book not found', async () => {
-    bookRepository.findById.mockResolvedValueOnce(
-      Result.fail(bookNotFoundFailure),
-    );
+    bookRepository.findById.mockResolvedValueOnce(Result.fail(bookNotFoundFailure));
 
     const result = await useCase.execute({
       id: 'non-existent-id',

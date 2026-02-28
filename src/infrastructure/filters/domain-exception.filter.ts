@@ -1,11 +1,5 @@
 // infrastructure/filters/domain-failure.filter.ts
-import {
-  ExceptionFilter,
-  Catch,
-  ArgumentsHost,
-  HttpStatus,
-  Logger,
-} from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpStatus, Logger } from '@nestjs/common';
 import { Response } from 'express';
 import {
   InvalidCredentialsError,

@@ -1,9 +1,4 @@
-import {
-  CallHandler,
-  ExecutionContext,
-  Injectable,
-  NestInterceptor,
-} from '@nestjs/common';
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { map, Observable } from 'rxjs';
 import { ResultMapper } from 'src/presentation/mappers/result.mapper';
 import { Result } from 'src/core/result';
@@ -16,7 +11,6 @@ export class MapResultInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((result) => {
         if (result instanceof Result) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           const httpResponse = ResultMapper.toHttpResponse(result);
           response.status(httpResponse.statusCode);
           return httpResponse.body;

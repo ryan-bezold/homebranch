@@ -7,9 +7,7 @@ import { Result } from 'src/core/result';
 import { UseCase } from 'src/core/usecase';
 
 @Injectable()
-export class SavePositionUseCase
-  implements UseCase<SavePositionRequest, SavedPosition>
-{
+export class SavePositionUseCase implements UseCase<SavePositionRequest, SavedPosition> {
   constructor(
     @Inject('SavedPositionRepository')
     private savedPositionRepository: ISavedPositionRepository,

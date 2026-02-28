@@ -18,11 +18,7 @@ import { GetBookShelfBooksUseCase } from '../application/usecases/bookshelf/get-
 import { GetBookShelvesByBookUseCase } from '../application/usecases/bookshelf/get-book-shelves-by-book-use-case.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([BookShelfEntity, BookEntity]),
-    AuthModule,
-    BooksModule,
-  ],
+  imports: [TypeOrmModule.forFeature([BookShelfEntity, BookEntity]), AuthModule, BooksModule],
   providers: [
     // Repository
     {

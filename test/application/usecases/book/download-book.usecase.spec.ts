@@ -44,9 +44,7 @@ describe('DownloadBookUseCase', () => {
   });
 
   test('Fails when book not found', async () => {
-    bookRepository.findById.mockResolvedValueOnce(
-      Result.fail(bookNotFoundFailure),
-    );
+    bookRepository.findById.mockResolvedValueOnce(Result.fail(bookNotFoundFailure));
 
     const result = await useCase.execute({ id: 'non-existent-id' });
 

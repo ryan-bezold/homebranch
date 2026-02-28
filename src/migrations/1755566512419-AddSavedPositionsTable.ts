@@ -24,12 +24,8 @@ export class AddSavedPositionsTable1755566512419 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `ALTER TABLE "saved_position_entity" DROP CONSTRAINT "FK_saved_position_user"`,
-    );
-    await queryRunner.query(
-      `ALTER TABLE "saved_position_entity" DROP CONSTRAINT "FK_saved_position_book"`,
-    );
+    await queryRunner.query(`ALTER TABLE "saved_position_entity" DROP CONSTRAINT "FK_saved_position_user"`);
+    await queryRunner.query(`ALTER TABLE "saved_position_entity" DROP CONSTRAINT "FK_saved_position_book"`);
     await queryRunner.query(`DROP TABLE "saved_position_entity"`);
   }
 }

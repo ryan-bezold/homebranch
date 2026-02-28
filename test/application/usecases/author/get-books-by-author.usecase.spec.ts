@@ -57,9 +57,7 @@ describe('GetBooksByAuthorUseCase', () => {
       total: 1,
       nextCursor: null,
     };
-    bookRepository.searchByAuthorAndTitle.mockResolvedValueOnce(
-      Result.ok(paginationResult),
-    );
+    bookRepository.searchByAuthorAndTitle.mockResolvedValueOnce(Result.ok(paginationResult));
 
     const result = await useCase.execute({
       name: 'Test Author',
@@ -68,12 +66,7 @@ describe('GetBooksByAuthorUseCase', () => {
       offset: 0,
     });
 
-    expect(bookRepository.searchByAuthorAndTitle).toHaveBeenCalledWith(
-      'Test Author',
-      'Test',
-      10,
-      0,
-    );
+    expect(bookRepository.searchByAuthorAndTitle).toHaveBeenCalledWith('Test Author', 'Test', 10, 0);
     expect(bookRepository.findByAuthor).not.toHaveBeenCalled();
     expect(result.isSuccess()).toBe(true);
   });

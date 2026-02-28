@@ -28,6 +28,7 @@ describe('DomainExceptionFilter', () => {
 
     mockArgumentsHost = {
       switchToHttp: jest.fn(() => ({
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         getResponse: jest.fn(() => mockResponse),
         getRequest: jest.fn(() => ({
           url: '/test',

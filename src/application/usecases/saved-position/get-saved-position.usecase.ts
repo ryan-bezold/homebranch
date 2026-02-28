@@ -6,18 +6,13 @@ import { Result } from 'src/core/result';
 import { UseCase } from 'src/core/usecase';
 
 @Injectable()
-export class GetSavedPositionUseCase
-  implements UseCase<GetSavedPositionRequest, SavedPosition>
-{
+export class GetSavedPositionUseCase implements UseCase<GetSavedPositionRequest, SavedPosition> {
   constructor(
     @Inject('SavedPositionRepository')
     private savedPositionRepository: ISavedPositionRepository,
   ) {}
 
-  async execute({
-    bookId,
-    userId,
-  }: GetSavedPositionRequest): Promise<Result<SavedPosition>> {
+  async execute({ bookId, userId }: GetSavedPositionRequest): Promise<Result<SavedPosition>> {
     return await this.savedPositionRepository.findByBookAndUser(bookId, userId);
   }
 }

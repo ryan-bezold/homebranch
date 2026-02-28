@@ -10,9 +10,7 @@ export interface FetchBookSummaryRequest {
 }
 
 @Injectable()
-export class FetchBookSummaryUseCase
-  implements UseCase<FetchBookSummaryRequest, Book>
-{
+export class FetchBookSummaryUseCase implements UseCase<FetchBookSummaryRequest, Book> {
   constructor(
     @Inject('BookRepository') private bookRepository: IBookRepository,
     private openLibraryGateway: OpenLibraryGateway,
@@ -25,10 +23,7 @@ export class FetchBookSummaryUseCase
     }
 
     const book = findResult.value;
-    const summary = await this.openLibraryGateway.findBookSummary(
-      book.title,
-      book.author,
-    );
+    const summary = await this.openLibraryGateway.findBookSummary(book.title, book.author);
 
     if (summary === null) {
       return findResult;

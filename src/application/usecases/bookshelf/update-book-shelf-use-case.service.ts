@@ -6,18 +6,14 @@ import { BookShelf } from 'src/domain/entities/bookshelf.entity';
 import { IBookShelfRepository } from '../../interfaces/bookshelf-repository';
 
 @Injectable()
-export class UpdateBookShelfUseCase
-  implements UseCase<UpdateBookShelfRequest, BookShelf>
-{
+export class UpdateBookShelfUseCase implements UseCase<UpdateBookShelfRequest, BookShelf> {
   constructor(
     @Inject('BookShelfRepository')
     private bookShelfRepository: IBookShelfRepository,
   ) {}
 
   async execute(request: UpdateBookShelfRequest): Promise<Result<BookShelf>> {
-    const findBookShelfResult = await this.bookShelfRepository.findById(
-      request.id,
-    );
+    const findBookShelfResult = await this.bookShelfRepository.findById(request.id);
 
     if (!findBookShelfResult.isSuccess()) {
       return findBookShelfResult;

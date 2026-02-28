@@ -8,15 +8,9 @@ import { DeleteBookForbiddenFailure } from 'src/domain/failures/book.failures';
 
 @Injectable()
 export class DeleteBookUseCase implements UseCase<DeleteBookRequest, Book> {
-  constructor(
-    @Inject('BookRepository') private bookRepository: IBookRepository,
-  ) {}
+  constructor(@Inject('BookRepository') private bookRepository: IBookRepository) {}
 
-  async execute({
-    id,
-    requestingUserId,
-    requestingUserRole,
-  }: DeleteBookRequest): Promise<Result<Book>> {
+  async execute({ id, requestingUserId, requestingUserRole }: DeleteBookRequest): Promise<Result<Book>> {
     const bookResult = await this.bookRepository.findById(id);
     if (!bookResult.isSuccess()) return bookResult;
 

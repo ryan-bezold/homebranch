@@ -1,5 +1,10 @@
 import { AuthorMapper } from 'src/infrastructure/mappers/author.mapper';
-import { mockAuthor, mockAuthorWithoutEnrichment, mockAuthorEntity, mockAuthorEntityWithoutEnrichment } from 'test/mocks/authorMocks';
+import {
+  mockAuthor,
+  mockAuthorWithoutEnrichment,
+  mockAuthorEntity,
+  mockAuthorEntityWithoutEnrichment,
+} from 'test/mocks/authorMocks';
 import { Author } from 'src/domain/entities/author.entity';
 
 describe('AuthorMapper', () => {

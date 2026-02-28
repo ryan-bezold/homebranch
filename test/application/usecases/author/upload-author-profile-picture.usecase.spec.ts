@@ -23,9 +23,7 @@ describe('UploadAuthorProfilePictureUseCase', () => {
       ],
     }).compile();
 
-    useCase = module.get<UploadAuthorProfilePictureUseCase>(
-      UploadAuthorProfilePictureUseCase,
-    );
+    useCase = module.get<UploadAuthorProfilePictureUseCase>(UploadAuthorProfilePictureUseCase);
     authorRepository = module.get('AuthorRepository');
   });
 
@@ -35,12 +33,7 @@ describe('UploadAuthorProfilePictureUseCase', () => {
 
   test('Successfully updates author profile picture URL', async () => {
     const newUrl = 'http://localhost:3000/uploads/author-images/new-uuid.jpg';
-    const updatedAuthor = new Author(
-      mockAuthor.id,
-      mockAuthor.name,
-      mockAuthor.biography,
-      newUrl,
-    );
+    const updatedAuthor = new Author(mockAuthor.id, mockAuthor.name, mockAuthor.biography, newUrl);
     authorRepository.findByName.mockResolvedValueOnce(Result.ok(mockAuthor));
     authorRepository.updateByName.mockResolvedValueOnce(Result.ok(updatedAuthor));
 
@@ -70,9 +63,7 @@ describe('UploadAuthorProfilePictureUseCase', () => {
   });
 
   test('Fails when author is not found', async () => {
-    authorRepository.findByName.mockResolvedValueOnce(
-      Result.fail(new AuthorNotFoundFailure()),
-    );
+    authorRepository.findByName.mockResolvedValueOnce(Result.fail(new AuthorNotFoundFailure()));
 
     const result = await useCase.execute({
       name: 'Unknown Author',

@@ -7,9 +7,7 @@ import { UseCase } from 'src/core/usecase';
 
 @Injectable()
 export class UpdateAuthorUseCase implements UseCase<UpdateAuthorRequest, Author> {
-  constructor(
-    @Inject('AuthorRepository') private authorRepository: IAuthorRepository,
-  ) {}
+  constructor(@Inject('AuthorRepository') private authorRepository: IAuthorRepository) {}
 
   async execute({ name, biography }: UpdateAuthorRequest): Promise<Result<Author>> {
     const existingResult = await this.authorRepository.findByName(name);
