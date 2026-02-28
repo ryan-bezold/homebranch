@@ -2,6 +2,7 @@ import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CreateBookUseCase } from 'src/application/usecases/book/create-book.usecase';
 import { DeleteBookUseCase } from 'src/application/usecases/book/delete-book.usecase';
+import { DownloadBookUseCase } from 'src/application/usecases/book/download-book.usecase';
 import { GetBookByIdUseCase } from 'src/application/usecases/book/get-book-by-id.usecase';
 import { GetBooksUseCase } from 'src/application/usecases/book/get-books.usecase';
 import { GetFavoriteBooksUseCase } from 'src/application/usecases/book/get-favorite-books-use-case.service';
@@ -29,6 +30,7 @@ import { UsersModule } from 'src/modules/user.module';
     // Use Cases (add all that your controller uses)
     CreateBookUseCase,
     DeleteBookUseCase,
+    DownloadBookUseCase,
     GetBooksUseCase,
     GetFavoriteBooksUseCase,
     GetBookByIdUseCase,

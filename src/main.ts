@@ -52,7 +52,14 @@ async function bootstrap() {
     );
     mkdirSync(authorImagesDirectory, { recursive: true });
   }
-  app.use('/uploads', express.static(resolve(uploadsDirectory)));
+  app.use(
+    '/uploads/cover-images',
+    express.static(resolve(coverImagesDirectory)),
+  );
+  app.use(
+    '/uploads/author-images',
+    express.static(resolve(authorImagesDirectory)),
+  );
   await app.listen(port);
   logger.log(`Application is running on: http://localhost:${port}`);
   logger.log(`Environment: ${process.env.NODE_ENV || 'development'}`);

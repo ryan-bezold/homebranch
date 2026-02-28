@@ -8,6 +8,8 @@ import {
   Post,
   Put,
   Query,
+  Res,
+  StreamableFile,
   UploadedFiles,
   UseGuards,
   UseInterceptors,
@@ -29,6 +31,10 @@ import { GetFavoriteBooksUseCase } from 'src/application/usecases/book/get-favor
 import { JwtAuthGuard } from 'src/infrastructure/guards/jwt-auth.guard';
 import { MapResultInterceptor } from '../interceptors/map_result.interceptor';
 import { PaginatedQuery } from 'src/core/paginated-query';
+import { DownloadBookUseCase } from 'src/application/usecases/book/download-book.usecase';
+import { createReadStream, existsSync } from 'fs';
+import { basename } from 'path';
+import { Response } from 'express';
 
 @Controller('books')
 @UseInterceptors(MapResultInterceptor)
@@ -40,6 +46,7 @@ export class BookController {
     private readonly createBookUseCase: CreateBookUseCase,
     private readonly deleteBookUseCase: DeleteBookUseCase,
     private readonly updateBookUseCase: UpdateBookUseCase,
+    private readonly downloadBookUseCase: DownloadBookUseCase,
   ) {}
 
   private readonly logger = new Logger('BookController');
@@ -156,5 +163,46 @@ export class BookController {
       ...updateBookDto,
     };
     return this.updateBookUseCase.execute(updateBookRequest);
+  }
+
+  @Get(':id/download')
+  @UseGuards(JwtAuthGuard)
+  async downloadBook(
+    @Param('id') id: string,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<StreamableFile | void> {
+    const result = await this.downloadBookUseCase.execute({ id });
+
+    if (result.isFailure()) {
+      response
+        .status(404)
+        .json({ success: false, error: result.failure!.code, message: result.failure!.message });
+      return;
+    }
+
+    const book = result.value!;
+    const sanitizedTitle =
+      book.title.replace(/[^\w\s\-]/g, '').trim() || 'book';
+    const uploadsDirectory = process.env.UPLOADS_DIRECTORY || './uploads';
+    const safeFileName = basename(book.fileName);
+    const filePath = join(uploadsDirectory, 'books', safeFileName);
+
+    if (!existsSync(filePath)) {
+      response
+        .status(404)
+        .json({ success: false, error: 'BOOK_FILE_NOT_FOUND', message: 'Book file not found on server' });
+      return;
+    }
+
+    const fileStream = createReadStream(filePath);
+    fileStream.on('error', (streamError) => {
+      this.logger.error(`Error streaming book file: ${streamError.message}`);
+      fileStream.destroy();
+    });
+
+    return new StreamableFile(fileStream, {
+      type: 'application/epub+zip',
+      disposition: `attachment; filename="${sanitizedTitle}.epub"`,
+    });
   }
 }
