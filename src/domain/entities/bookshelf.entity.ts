@@ -5,5 +5,6 @@ export class BookShelf {
     public id: string,
     public title: string,
     public books: Book[],
+    public createdByUserId?: string,
   ) {}
 }

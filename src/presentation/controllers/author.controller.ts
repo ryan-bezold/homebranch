@@ -40,8 +40,8 @@ export class AuthorController {
   ) {}
 
   @Get()
-  getAuthors(@Query() paginatedQuery: PaginatedQuery) {
-    return this.getAuthorsUseCase.execute(paginatedQuery);
+  getAuthors(@Query() paginatedQuery: PaginatedQuery & { userId?: string }) {
+    return this.getAuthorsUseCase.execute({ ...paginatedQuery });
   }
 
   @Get(':name')
@@ -52,7 +52,7 @@ export class AuthorController {
   @Get(':name/books')
   getBooksByAuthor(
     @Param('name') name: string,
-    @Query() paginatedQuery: PaginatedQuery,
+    @Query() paginatedQuery: PaginatedQuery & { userId?: string },
   ) {
     return this.getBooksByAuthorUseCase.execute({ name, ...paginatedQuery });
   }

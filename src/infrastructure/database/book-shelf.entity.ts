@@ -15,6 +15,9 @@ export class BookShelfEntity {
   @Column()
   title: string;
 
+  @Column({ nullable: true, type: 'varchar' })
+  createdByUserId?: string;
+
   @ManyToMany(() => BookEntity, (book) => book.bookShelves)
   @JoinTable({
     name: 'book_shelf_books',

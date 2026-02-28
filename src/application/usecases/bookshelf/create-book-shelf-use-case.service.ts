@@ -18,7 +18,7 @@ export class CreateBookShelfUseCase
 
   async execute(dto: CreateBookShelfRequest): Promise<Result<BookShelf>> {
     const id = randomUUID();
-    const bookShelf = BookShelfFactory.create(id, dto.title);
+    const bookShelf = BookShelfFactory.create(id, dto.title, [], dto.userId);
     return await this.bookShelfRepository.create(bookShelf);
   }
 }

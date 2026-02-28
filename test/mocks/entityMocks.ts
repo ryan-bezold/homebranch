@@ -24,6 +24,7 @@ export const mockBookEntity: BookEntity = {
 export const mockBookShelfEntity: BookShelfEntity = {
   id: mockBookShelf.id,
   title: mockBookShelf.title,
+  createdByUserId: undefined,
   books: [],
 };
 

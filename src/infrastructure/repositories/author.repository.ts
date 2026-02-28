@@ -31,6 +31,7 @@ export class TypeOrmAuthorRepository implements IAuthorRepository {
     query?: string,
     limit?: number,
     offset?: number,
+    userId?: string,
   ): Promise<Result<PaginationResult<Author[]>>> {
     const queryBuilder = this.bookRepository
       .createQueryBuilder('book')
@@ -50,8 +51,13 @@ export class TypeOrmAuthorRepository implements IAuthorRepository {
       .addGroupBy('author.profile_picture_url')
       .orderBy('book.author', 'ASC');
 
+    if (userId) {
+      queryBuilder.where('book.uploadedByUserId = :userId', { userId });
+    }
+
     if (query) {
-      queryBuilder.where('LOWER(book.author) LIKE LOWER(:query)', {
+      const method = userId ? 'andWhere' : 'where';
+      queryBuilder[method]('LOWER(book.author) LIKE LOWER(:query)', {
         query: `%${query}%`,
       });
     }
@@ -60,8 +66,13 @@ export class TypeOrmAuthorRepository implements IAuthorRepository {
       .createQueryBuilder('book')
       .select('COUNT(DISTINCT book.author)', 'count');
 
+    if (userId) {
+      countQueryBuilder.where('book.uploadedByUserId = :userId', { userId });
+    }
+
     if (query) {
-      countQueryBuilder.where('LOWER(book.author) LIKE LOWER(:query)', {
+      const method = userId ? 'andWhere' : 'where';
+      countQueryBuilder[method]('LOWER(book.author) LIKE LOWER(:query)', {
         query: `%${query}%`,
       });
     }

@@ -29,9 +29,10 @@ export class TypeOrmBookShelfRepository implements IBookShelfRepository {
     }
   }
 
-  async findAll(limit?: number, offset?: number): Promise<Result<PaginationResult<BookShelf[]>>> {
+  async findAll(limit?: number, offset?: number, userId?: string): Promise<Result<PaginationResult<BookShelf[]>>> {
     try {
       const [bookShelfEntities, total] = await this.repository.findAndCount({
+        where: userId ? { createdByUserId: userId } : undefined,
         relations: ['books'],
         take: limit,
         skip: offset,

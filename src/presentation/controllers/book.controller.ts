@@ -55,9 +55,9 @@ export class BookController {
   private readonly logger = new Logger('BookController');
   @Get()
   @UseGuards(JwtAuthGuard)
-  getBooks(@Req() req: Request, @Query() paginationDto: PaginatedQuery) {
+  getBooks(@Query() paginationDto: PaginatedQuery & { userId?: string }) {
     this.logger.log(`Getting books with title ${paginationDto.query}`);
-    return this.getBooksUseCase.execute({ ...paginationDto, userId: req['user']['id'] });
+    return this.getBooksUseCase.execute({ ...paginationDto });
   }
 
   @Get('favorite')

@@ -14,6 +14,7 @@ export interface IBookRepository extends IRepository<Book> {
     authorId: string,
     limit?: number,
     offset?: number,
+    userId?: string,
   ): Promise<Result<PaginationResult<Book[]>>>;
   findFavorites(
     limit?: number,
@@ -43,5 +44,6 @@ export interface IBookRepository extends IRepository<Book> {
     title: string,
     limit?: number,
     offset?: number,
+    userId?: string,
   ): Promise<Result<PaginationResult<Book[]>>>;
 }

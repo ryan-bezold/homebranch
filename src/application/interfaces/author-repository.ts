@@ -7,6 +7,7 @@ export interface IAuthorRepository {
     query?: string,
     limit?: number,
     offset?: number,
+    userId?: string,
   ): Promise<Result<PaginationResult<Author[]>>>;
   findByName(name: string): Promise<Result<Author>>;
   create(author: Author): Promise<Result<Author>>;

@@ -7,9 +7,11 @@ import {
   Post,
   Put,
   Query,
+  Req,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { JwtAuthGuard } from 'src/infrastructure/guards/jwt-auth.guard';
 import { MapResultInterceptor } from '../interceptors/map_result.interceptor';
 import { GetBookShelvesUseCase } from 'src/application/usecases/bookshelf/get-book-shelves-use-case.service';
@@ -46,8 +48,8 @@ export class BookShelfController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  getBookShelves(@Query() paginationDto: PaginatedQuery) {
-    return this.getBookShelvesUseCase.execute(paginationDto);
+  getBookShelves(@Req() req: Request, @Query() paginationDto: PaginatedQuery) {
+    return this.getBookShelvesUseCase.execute({ ...paginationDto, userId: req['user']['id'] });
   }
 
   @Get('by-book/:bookId')
@@ -71,10 +73,11 @@ export class BookShelfController {
   @Post()
   @UseGuards(JwtAuthGuard)
   createBookShelf(
+    @Req() req: Request,
     @Body()
     createBookShelfDto: CreateBookShelfDto,
   ) {
-    return this.createBookShelfUseCase.execute(createBookShelfDto);
+    return this.createBookShelfUseCase.execute({ ...createBookShelfDto, userId: req['user']['id'] });
   }
 
   @Delete(`:id`)

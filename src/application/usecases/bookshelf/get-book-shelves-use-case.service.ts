@@ -8,7 +8,7 @@ import { IBookShelfRepository } from '../../interfaces/bookshelf-repository';
 
 @Injectable()
 export class GetBookShelvesUseCase
-  implements UseCase<PaginatedQuery, PaginationResult<BookShelf[]>>
+  implements UseCase<PaginatedQuery & { userId?: string }, PaginationResult<BookShelf[]>>
 {
   constructor(
     @Inject('BookShelfRepository')
@@ -18,7 +18,8 @@ export class GetBookShelvesUseCase
   async execute({
     limit,
     offset,
-  }: PaginatedQuery): Promise<Result<PaginationResult<BookShelf[]>>> {
-    return await this.bookShelfRepository.findAll(limit, offset);
+    userId,
+  }: PaginatedQuery & { userId?: string }): Promise<Result<PaginationResult<BookShelf[]>>> {
+    return await this.bookShelfRepository.findAll(limit, offset, userId);
   }
 }

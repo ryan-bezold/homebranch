@@ -103,9 +103,9 @@ export class TypeOrmBookRepository implements IBookRepository {
     return Result.ok(book);
   }
 
-  async findByAuthor(author: string, limit?: number, offset?: number): Promise<Result<PaginationResult<Book[]>>> {
+  async findByAuthor(author: string, limit?: number, offset?: number, userId?: string): Promise<Result<PaginationResult<Book[]>>> {
     const [bookEntities, total] = await this.repository.findAndCount({
-      where: { author },
+      where: userId ? { author, uploadedByUserId: userId } : { author },
       order: { title: 'ASC' },
       take: limit,
       skip: offset,
@@ -202,11 +202,18 @@ export class TypeOrmBookRepository implements IBookRepository {
     title: string,
     limit?: number,
     offset?: number,
+    userId?: string,
   ): Promise<Result<PaginationResult<Book[]>>> {
-    const [bookEntities, total] = await this.repository
+    const qb = this.repository
       .createQueryBuilder('book')
       .where('book.author = :author', { author })
-      .andWhere('LOWER(book.title) LIKE LOWER(:title)', { title: `%${title}%` })
+      .andWhere('LOWER(book.title) LIKE LOWER(:title)', { title: `%${title}%` });
+
+    if (userId) {
+      qb.andWhere('book.uploadedByUserId = :userId', { userId });
+    }
+
+    const [bookEntities, total] = await qb
       .orderBy('book.title', 'ASC')
       .limit(limit)
       .skip(offset)

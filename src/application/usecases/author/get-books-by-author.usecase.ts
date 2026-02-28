@@ -21,6 +21,7 @@ export class GetBooksByAuthorUseCase
     query,
     limit,
     offset,
+    userId,
   }: GetBooksByAuthorRequest & PaginatedQuery): Promise<
     Result<PaginationResult<Book[]>>
   > {
@@ -30,8 +31,9 @@ export class GetBooksByAuthorUseCase
         query,
         limit,
         offset,
+        userId,
       );
     }
-    return await this.bookRepository.findByAuthor(name, limit, offset);
+    return await this.bookRepository.findByAuthor(name, limit, offset, userId);
   }
 }
