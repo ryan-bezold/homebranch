@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth.module';
-import { UsersModule } from './user.module';
 import { BookShelfEntity } from 'src/infrastructure/database/book-shelf.entity';
 import { BookEntity } from 'src/infrastructure/database/book.entity';
 import { TypeOrmBookShelfRepository } from '../infrastructure/repositories/book-shelf.repository';
@@ -22,7 +21,6 @@ import { GetBookShelvesByBookUseCase } from '../application/usecases/bookshelf/g
   imports: [
     TypeOrmModule.forFeature([BookShelfEntity, BookEntity]),
     AuthModule,
-    UsersModule,
     BooksModule,
   ],
   providers: [

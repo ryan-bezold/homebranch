@@ -12,7 +12,6 @@ import { BookMapper } from 'src/infrastructure/mappers/book.mapper';
 import { TypeOrmBookRepository } from 'src/infrastructure/repositories/book.repository';
 import { BookController } from 'src/presentation/controllers/book.controller';
 import { AuthModule } from 'src/modules/auth.module';
-import { UsersModule } from 'src/modules/user.module';
 import { OpenLibraryGateway } from 'src/infrastructure/gateways/open-library.gateway';
 import { FetchBookSummaryUseCase } from 'src/application/usecases/book/fetch-book-summary.usecase';
 
@@ -20,7 +19,6 @@ import { FetchBookSummaryUseCase } from 'src/application/usecases/book/fetch-boo
   imports: [
     TypeOrmModule.forFeature([BookEntity]),
     AuthModule,
-    forwardRef(() => UsersModule),
   ],
   providers: [
     // Repository

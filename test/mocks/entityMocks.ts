@@ -1,12 +1,7 @@
 import { BookEntity } from 'src/infrastructure/database/book.entity';
-import { UserEntity } from 'src/infrastructure/database/user.entity';
-import { RoleEntity } from 'src/infrastructure/database/role.entity';
 import { BookShelfEntity } from 'src/infrastructure/database/book-shelf.entity';
 import { SavedPositionEntity } from 'src/infrastructure/database/saved-position.entity';
-import { Permission as PermissionEnum } from 'src/domain/value-objects/permission.enum';
 import { mockBook } from './bookMocks';
-import { mockUser } from './userMocks';
-import { mockRole } from './roleMocks';
 import { mockBookShelf } from './bookShelfMocks';
 import { mockSavedPosition } from './savedPositionMocks';
 
@@ -23,20 +18,6 @@ export const mockBookEntity: BookEntity = {
   isFavorite: mockBook.isFavorite,
   publishedYear: mockBook.publishedYear,
   coverImageFileName: mockBook.coverImageFileName,
-};
-
-export const mockUserEntity: UserEntity = {
-  id: mockUser.id,
-  username: mockUser.username,
-  email: mockUser.email,
-  isRestricted: mockUser.isRestricted,
-  role: undefined,
-};
-
-export const mockRoleEntity: RoleEntity = {
-  id: mockRole.id,
-  name: mockRole.name,
-  permissions: mockRole.permissions,
 };
 
 export const mockBookShelfEntity: BookShelfEntity = {
@@ -69,21 +50,6 @@ export const mockBookEntityWithoutOptional: BookEntity = {
   ...mockBookEntity,
   publishedYear: undefined,
   coverImageFileName: undefined,
-};
-
-export const mockUserEntityWithRole: UserEntity = {
-  ...mockUserEntity,
-  role: mockRoleEntity,
-};
-
-export const mockUserEntityRestricted: UserEntity = {
-  ...mockUserEntity,
-  isRestricted: true,
-};
-
-export const mockRoleEntityMultiplePermissions: RoleEntity = {
-  ...mockRoleEntity,
-  permissions: [PermissionEnum.MANAGE_BOOKS, PermissionEnum.MANAGE_USERS, PermissionEnum.MANAGE_ROLES],
 };
 
 export const mockBookShelfEntityWithBooks: BookShelfEntity = {
