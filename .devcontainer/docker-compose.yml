@@ -1,0 +1,44 @@
+services:
+  app:
+    image: node:20
+    working_dir: /workspace
+    volumes:
+      - ..:/workspace:cached
+      - node_modules:/workspace/node_modules
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_PORT: "5432"
+      DATABASE_NAME: homebranch
+      NODE_ENV: development
+      PORT: "8080"
+      CORS_ORIGIN: "*"
+      JWT_ACCESS_SECRET: dev_access_secret_change_me
+      JWT_REFRESH_SECRET: dev_refresh_secret_change_me
+    ports:
+      - "8080:8080"
+    command: sleep infinity
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: homebranch
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  node_modules:
+  postgres-data:
