@@ -1,9 +1,9 @@
 # HomeBranch
 
-The backend API for [HomeBranch](https://github.com/Hydraux/homebranch-web) — a self-hosted e-book library. Manages books, bookshelves, favorites, reading position sync, and user accounts.
+The backend API for [HomeBranch](https://github.com/Oghamark/homebranch-web) — a self-hosted e-book library. Manages books, bookshelves, favorites, reading position sync, and user accounts.
 
 **Requires companion services:**
-- [Authentication service](https://github.com/Hydraux/Authentication) — user accounts and JWT sessions
+- [Authentication service](https://github.com/Oghamark/Authentication) — user accounts and JWT sessions
 - PostgreSQL database
 
 ---
@@ -39,7 +39,7 @@ docker run -d \
   -e JWT_ACCESS_SECRET=your-secret \
   -e UPLOADS_DIRECTORY=/data/uploads \
   -v homebranch-uploads:/data/uploads \
-  ghcr.io/hydraux/homebranch:latest
+  ghcr.io/oghamark/homebranch:latest
 ```
 
 Or with Docker Compose:
@@ -47,7 +47,7 @@ Or with Docker Compose:
 ```yaml
 services:
   homebranch:
-    image: ghcr.io/hydraux/homebranch:latest
+    image: ghcr.io/Oghamark/homebranch:latest
     ports:
       - "3000:3000"
     environment:
@@ -101,7 +101,7 @@ The service runs as a `homebranch` system user, installs to `/opt/homebranch`, a
 Requirements: Node.js 20+, PostgreSQL
 
 ```bash
-git clone https://github.com/Hydraux/Homebranch
+git clone https://github.com/Oghamark/Homebranch
 cd Homebranch
 npm install
 npm run build
